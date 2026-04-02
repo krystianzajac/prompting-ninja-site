@@ -167,9 +167,10 @@
     .cta-secondary:hover { background: #f9fafb; border-color: #9ca3af; transform: translateY(-1px); }
 
     .hero-sub {
-      margin-top: 16px;
-      font-size: 13px;
+      margin-top: 24px;
+      font-size: 12px;
       color: #9ca3af;
+      letter-spacing: 0.2px;
     }
     .hero-sub strong { color: #6b7280; }
 
@@ -406,21 +407,35 @@
       margin-top: 4px;
     }
 
-    .testimonial {
-      max-width: 520px;
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 900px;
       margin: 0 auto;
-      font-size: 16px;
+    }
+
+    .testimonial {
+      text-align: left;
+      padding: 24px;
+      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px solid #f3f4f6;
+    }
+
+    .testimonial-text {
+      font-size: 14px;
       font-style: italic;
       color: #374151;
       line-height: 1.7;
+      margin-bottom: 12px;
     }
 
     .testimonial-author {
-      margin-top: 12px;
       font-style: normal;
-      font-size: 14px;
+      font-size: 13px;
       color: #9ca3af;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     /* === Privacy === */
@@ -714,9 +729,27 @@
         <div class="label">Free</div>
       </div>
     </div>
-    <div class="testimonial">
-      "I use AI tools all day. Before Prompting Ninja, my best prompts were buried across 20 different chat threads. Now I find them in seconds."
-      <div class="testimonial-author">— AI power user</div>
+    <div class="testimonials">
+      <div class="testimonial">
+        <div class="testimonial-text">"I use AI tools all day. Before this, my best prompts were buried across 20 different chat threads. Now I find them in seconds."</div>
+        <div class="testimonial-author">— Kris Z.</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-text">"The starter library alone saved me hours. I just added them all and started using them immediately. No setup, no friction."</div>
+        <div class="testimonial-author">— Andy L.</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-text">"Finally something that respects privacy. No account, no cloud, no tracking. Just a fast prompt library that works."</div>
+        <div class="testimonial-author">— Mia H.</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-text">"I copy-paste prompts into ChatGPT and Claude dozens of times a day. This extension cut that workflow from minutes to one click."</div>
+        <div class="testimonial-author">— Aneta M.</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-text">"Dark mode looks beautiful. The whole thing feels like it was designed by Apple. Clean, fast, and stays out of the way."</div>
+        <div class="testimonial-author">— Louis A.</div>
+      </div>
     </div>
   </section>
 
