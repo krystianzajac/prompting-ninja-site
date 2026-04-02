@@ -3,312 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prompting Ninja — Your AI Prompt Library</title>
-  <meta name="description" content="A fast, local-first prompt library for AI power users. Store, search, and reuse prompts across ChatGPT, Claude, and any website.">
+  <title>Prompting Ninja</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #1a1a1a;
       background: #ffffff;
       line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
     }
-
     .header {
       background: #1a1a1a;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .logo h1 {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-    }
-
-    .logo .prompt { color: #ffffff; }
-    .logo .vault { color: #f97316; }
-
-    .nav a {
-      color: #a1a1a6;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      margin-left: 24px;
-      transition: color 0.15s ease;
-    }
-
-    .nav a:hover { color: #ffffff; }
-
-    .hero {
-      text-align: center;
-      padding: 80px 24px 60px;
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    .hero h2 {
-      font-size: 42px;
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.15;
-      margin-bottom: 20px;
-      color: #1a1a1a;
-    }
-
-    .hero h2 span { color: #f97316; }
-
-    .hero p {
-      font-size: 18px;
-      color: #6b7280;
-      max-width: 520px;
-      margin: 0 auto 32px;
-      line-height: 1.7;
-    }
-
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 28px;
-      background: #f97316;
-      color: #fff;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      transition: all 0.15s ease;
-    }
-
-    .cta:hover { background: #ea580c; }
-
-    .features {
-      padding: 60px 24px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .features h3 {
-      text-align: center;
-      font-size: 14px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #f97316;
-      margin-bottom: 40px;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 32px;
-    }
-
-    .feature {
-      padding: 24px;
-      border-radius: 16px;
-      background: #f9fafb;
-      border: 1px solid #f3f4f6;
-    }
-
-    .feature-icon { font-size: 28px; margin-bottom: 12px; }
-
-    .feature h4 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #1a1a1a;
-    }
-
-    .feature p {
-      font-size: 14px;
-      color: #6b7280;
-      line-height: 1.6;
-    }
-
-    .library-section {
-      padding: 60px 24px;
-      background: #1a1a1a;
-      color: #ffffff;
+      padding: 24px 0;
       text-align: center;
     }
-
-    .library-section h3 {
+    .header h1 {
       font-size: 28px;
       font-weight: 700;
-      margin-bottom: 12px;
       letter-spacing: -0.5px;
     }
-
-    .library-section p {
-      font-size: 16px;
+    .header .prompting { color: #ffffff; }
+    .header .ninja { color: #f97316; }
+    .header p {
       color: #a1a1a6;
-      max-width: 520px;
-      margin: 0 auto 32px;
+      font-size: 16px;
+      margin-top: 8px;
     }
-
-    .library-categories {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      max-width: 600px;
+    .container {
+      max-width: 640px;
       margin: 0 auto;
+      padding: 40px 24px;
     }
-
-    .library-pill {
-      padding: 8px 16px;
-      border-radius: 20px;
-      background: rgba(249, 115, 22, 0.15);
-      color: #fb923c;
+    nav {
+      text-align: center;
+      padding: 16px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    nav a {
+      color: #f97316;
+      text-decoration: none;
       font-size: 14px;
       font-weight: 500;
+      margin: 0 16px;
     }
-
-    .privacy-banner {
-      padding: 48px 24px;
+    nav a:hover { text-decoration: underline; }
+    .hero {
       text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
+      padding: 48px 24px;
     }
-
-    .privacy-banner h3 {
+    .hero h2 {
       font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #1a1a1a;
     }
-
-    .privacy-banner p {
-      font-size: 15px;
+    .hero p {
+      font-size: 16px;
       color: #6b7280;
+      max-width: 480px;
+      margin: 0 auto 24px;
     }
-
-    .check-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin: 20px 0;
+    .cta {
+      display: inline-block;
+      padding: 12px 28px;
+      background: #f97316;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: background 0.15s ease;
     }
-
-    .check-list li { font-size: 15px; color: #374151; }
-    .check-list li::before { content: '✓ '; color: #059669; font-weight: 700; }
-
+    .cta:hover { background: #ea580c; }
     .footer {
       text-align: center;
-      padding: 32px 24px;
-      border-top: 1px solid #e5e7eb;
+      padding: 24px;
       color: #9ca3af;
       font-size: 13px;
-    }
-
-    .footer a { color: #f97316; text-decoration: none; }
-    .footer a:hover { text-decoration: underline; }
-    .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 12px; }
-
-    @media (max-width: 640px) {
-      .hero h2 { font-size: 30px; }
-      .hero p { font-size: 16px; }
-      .header { padding: 12px 16px; }
-      .nav a { margin-left: 16px; font-size: 13px; }
+      border-top: 1px solid #e5e7eb;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-
-  <header class="header">
-    <a class="logo" href="/">
-      <h1><span class="prompt">Prompting</span> <span class="vault">Ninja</span></h1>
-    </a>
-    <nav class="nav">
-      <a href="privacy.html">Privacy</a>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <h2>Your AI prompts.<br><span>One click away.</span></h2>
-    <p>Stop hunting through notes and chat histories. Store your best prompts once, find them in seconds, use them anywhere.</p>
-    <a class="cta" href="#">Add to Chrome — Free</a>
-  </section>
-
-  <section class="features">
-    <h3>Everything you need</h3>
-    <div class="feature-grid">
-      <div class="feature">
-        <div class="feature-icon">⚡</div>
-        <h4>Instant search</h4>
-        <p>Find any prompt in seconds. Search across titles, content, categories, and tags as you type.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">📋</div>
-        <h4>One-click copy</h4>
-        <p>Copy any prompt to your clipboard instantly. Or insert it directly into ChatGPT, Claude, and other AI tools.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🏷️</div>
-        <h4>Organised by design</h4>
-        <p>Categories, tags, and favourites keep your library structured. Sort by recently used, newest, or most popular.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🌙</div>
-        <h4>Dark and light themes</h4>
-        <p>Follows your system preference or choose manually. Designed to look great either way.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🔒</div>
-        <h4>Private by default</h4>
-        <p>All data stays in your browser. No accounts, no tracking, no servers. Your prompts are yours.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🔄</div>
-        <h4>Sync across devices</h4>
-        <p>Optionally sync via Chrome's built-in sync. Works across all your computers automatically.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="library-section">
-    <h3>38 prompts, ready to go</h3>
-    <p>Start with a curated library of high-quality prompts for everyday AI work. Add your own, edit anything, make it yours.</p>
-    <div class="library-categories">
-      <span class="library-pill">Writing</span>
-      <span class="library-pill">Analysis</span>
-      <span class="library-pill">Business</span>
-      <span class="library-pill">Productivity</span>
-      <span class="library-pill">Creative</span>
-      <span class="library-pill">Learning</span>
-    </div>
-  </section>
-
-  <section class="privacy-banner">
-    <h3>Privacy first</h3>
-    <p>We believe your prompts are yours. Prompting Ninja is designed with privacy at the core.</p>
-    <ul class="check-list">
-      <li>All data stored locally in your browser</li>
-      <li>No account required</li>
-      <li>No analytics or tracking</li>
-      <li>No external servers</li>
-      <li>Minimal permissions</li>
-    </ul>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-links">
-      <a href="privacy.html">Privacy Policy</a>
-    </div>
-    <p>&copy; 2026 Prompting Ninja. All rights reserved.</p>
-  </footer>
-
+  <div class="header">
+    <h1><span class="prompting">Prompting</span> <span class="ninja">Ninja</span></h1>
+    <p>A fast, local-first prompt library for AI power users</p>
+  </div>
+  <nav>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="https://github.com/krystianzajac/prompting-ninja">GitHub</a>
+  </nav>
+  <div class="hero">
+    <h2>Store, search, and reuse your AI prompts</h2>
+    <p>Stop hunting through notes and chat histories. Store your prompts once, find them in seconds, use them anywhere.</p>
+    <a class="cta" href="https://chrome.google.com/webstore">Install from Chrome Web Store</a>
+  </div>
+  <div class="footer">
+    &copy; 2026 Prompting Ninja. All rights reserved.
+  </div>
 </body>
 </html>
