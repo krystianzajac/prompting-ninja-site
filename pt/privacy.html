@@ -20,6 +20,15 @@
   <link rel="alternate" hreflang="ar" href="https://promptingninja.ai/ar/privacy.html">
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="icon" type="image/png" sizes="48x48" href="../icon48.png">
+
+  <!-- Dark mode: apply before render -->
+  <script>
+    (function() {
+      var theme = localStorage.getItem('pn-theme');
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -170,14 +179,42 @@
     .footer a { color: #f97316; }
     .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 12px; }
 
+    /* === Theme toggle === */
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid #374151;
+      border-radius: 6px;
+      color: #a1a1a6;
+      padding: 5px 8px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle:hover { border-color: #6b7280; color: #ffffff; }
+
+    /* === Dark mode === */
+    [data-theme="dark"] body { background: #111111; color: #e5e7eb; }
+    [data-theme="dark"] .container h2,
+    [data-theme="dark"] .container h3 { color: #e5e7eb; }
+    [data-theme="dark"] .container p,
+    [data-theme="dark"] .container li { color: #9ca3af; }
+    [data-theme="dark"] .container strong { color: #e5e7eb; }
+    [data-theme="dark"] .updated { color: #6b7280; }
+    [data-theme="dark"] code { background: #1f2937; color: #e5e7eb; }
+    [data-theme="dark"] .footer { background: #0a0a0a; border-color: #374151; color: #6b7280; }
+
     @media (max-width: 768px) {
-      .header { padding: 0 16px; }
+      .header { padding: 0 12px; height: 48px; }
+      .logo img { width: 24px; height: 24px; }
+      .logo h1 { font-size: 15px; }
       .container { padding: 32px 16px; }
       .nav a:not(.nav-cta) { display: none; }
-      .nav { gap: 12px; }
-      .lang-switcher { display: block; }
-      .lang-switcher a { display: none; }
-      .lang-trigger { font-size: 12px; padding: 5px 8px; }
+      .nav { gap: 8px; }
+      .nav-cta { padding: 6px 12px !important; font-size: 12px !important; white-space: nowrap; }
+      .lang-trigger { font-size: 0; padding: 6px 8px; gap: 0; border: none; }
+      .lang-trigger span { font-size: 13px; }
+      .lang-trigger svg { width: 10px; height: 10px; }
     }
   </style>
 </head>
@@ -193,7 +230,8 @@
       <a href="/pt/#library" data-i18n="nav_library">Biblioteca</a>
       <a href="/pt/#faq" data-i18n="nav_faq">FAQ</a>
       <a href="/pt/privacy.html" data-i18n="nav_privacy">Privacidade</a>
-      <a href="#" class="nav-cta" data-i18n="nav_cta">Adicionar ao Chrome</a>
+      <a href="/#install" class="nav-cta" data-i18n="nav_cta">Adicionar ao Chrome</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">&#9790;</button>
             <div class="lang-switcher" id="lang-switcher">
         <button class="lang-trigger" aria-label="Change language">
           <span id="lang-current">🇧🇷 Português</span>
@@ -268,6 +306,31 @@
       if (!t || !m) return;
       t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
       document.addEventListener('click', function() { m.classList.remove('open'); });
+    })();
+  </script>
+
+  <!-- Theme toggle -->
+  <script>
+    (function() {
+      var btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+      function update() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        btn.textContent = isDark ? '\u2600' : '\u263E';
+        btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+      }
+      update();
+      btn.addEventListener('click', function() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('pn-theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('pn-theme', 'dark');
+        }
+        update();
+      });
     })();
   </script>
 
