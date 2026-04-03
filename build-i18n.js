@@ -163,13 +163,14 @@ function processTemplate(templateHtml, locale, translations, allLocales, pagePat
   // 5. Replace data-i18n content (keeps data-i18n attributes)
   html = replaceDataI18n(html, t);
 
-  // 6. Replace the lang-switcher with locale-specific version
+  // 6. Replace ALL lang-switcher instances with locale-specific version
   const switcherHtml = buildLangSwitcher(locale, pagePath);
-  // Match the lang-switcher div precisely: it contains a <button> and a <div class="lang-menu">
-  // Structure: <div class="lang-switcher"...> <button>...</button> <div class="lang-menu">...(links)...</div> </div>
+  const mobileSwitcherHtml = switcherHtml.replace(' id="lang-switcher"', '');
+  // Replace each lang-switcher block: find opening tag, match through closing </div></div>
+  // We count div depth to find the correct closing tags
   html = html.replace(
-    /<div\s+class="lang-switcher"\s+id="lang-switcher">[\s\S]*?<\/div>\s*<\/div>/,
-    switcherHtml
+    /<div\s+class="lang-switcher"(\s+id="lang-switcher")?>\s*<button class="lang-trigger"[\s\S]*?<\/div>\s*<\/div>/g,
+    (match, hasId) => hasId ? switcherHtml : mobileSwitcherHtml
   );
 
   // 7. Fix paths for locale subdirectories (assets are in parent dir)
