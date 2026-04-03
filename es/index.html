@@ -850,16 +850,16 @@
       margin-bottom: 4px;
     }
     .mobile-more-menu .lang-switcher { position: static; }
-    .mobile-more-menu .lang-trigger {
-      width: 100%; justify-content: space-between;
-      border: none; padding: 8px 12px; border-radius: 6px;
-    }
+    .mobile-more-menu .lang-trigger { display: none; }
     .mobile-more-menu .lang-menu {
+      display: block !important;
       position: static; border: none;
-      box-shadow: none; margin-top: 4px;
-      max-height: 200px; border-radius: 6px;
-      background: #111111;
+      box-shadow: none; margin-top: 0;
+      max-height: 240px; border-radius: 6px;
+      background: transparent; padding: 0;
+      overflow-y: auto;
     }
+    .mobile-more-menu .lang-option { padding: 8px 12px; border-radius: 6px; }
 
     @media (max-width: 768px) {
       .hero h2 { font-size: 32px; letter-spacing: -1px; }
