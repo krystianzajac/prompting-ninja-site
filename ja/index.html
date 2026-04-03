@@ -824,6 +824,43 @@
       font-size: 14px;
     }
 
+    /* === Mobile more menu === */
+    .mobile-more { display: none; position: relative; }
+    .mobile-more-trigger {
+      background: transparent; border: 1px solid #374151;
+      border-radius: 6px; color: #a1a1a6;
+      padding: 5px 8px; cursor: pointer;
+      font-size: 16px; line-height: 1;
+      transition: all 0.15s ease;
+    }
+    .mobile-more-trigger:hover { border-color: #6b7280; color: #ffffff; }
+    .mobile-more-menu {
+      display: none; position: absolute;
+      top: calc(100% + 8px); right: 0;
+      background: #1a1a1a; border: 1px solid #374151;
+      border-radius: 8px; padding: 8px;
+      min-width: 180px; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 200;
+    }
+    .mobile-more-menu.open { display: block; }
+    .mobile-more-menu .theme-toggle {
+      width: 100%; text-align: left;
+      padding: 8px 12px; border: none;
+      border-radius: 6px; font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .mobile-more-menu .lang-switcher { position: static; }
+    .mobile-more-menu .lang-trigger {
+      width: 100%; justify-content: space-between;
+      border: none; padding: 8px 12px; border-radius: 6px;
+    }
+    .mobile-more-menu .lang-menu {
+      position: static; border: none;
+      box-shadow: none; margin-top: 4px;
+      max-height: 200px; border-radius: 6px;
+      background: #111111;
+    }
+
     @media (max-width: 768px) {
       .hero h2 { font-size: 32px; letter-spacing: -1px; }
       .hero p { font-size: 16px; }
@@ -835,9 +872,9 @@
       .nav { gap: 8px; }
       .nav a:not(.nav-cta) { display: none; }
       .nav-cta { padding: 6px 12px !important; font-size: 12px !important; white-space: nowrap; }
-      .lang-trigger { font-size: 0; padding: 6px 8px; gap: 0; border: none; }
-      .lang-trigger span { font-size: 13px; }
-      .lang-trigger svg { width: 10px; height: 10px; }
+      .theme-toggle:not(.mobile-more-menu .theme-toggle) { display: none; }
+      .lang-switcher:not(.mobile-more-menu .lang-switcher) { display: none; }
+      .mobile-more { display: block; }
     }
   </style>
 </head>
@@ -873,6 +910,31 @@
           <a href="/ja/" class="lang-option active">🇯🇵 日本語</a>
           <a href="/zh/" class="lang-option">🇨🇳 中文</a>
           <a href="/ar/" class="lang-option">🇸🇦 العربية</a>
+        </div>
+      </div>
+      <div class="mobile-more" id="mobile-more">
+        <button class="mobile-more-trigger" aria-label="More options">&#8943;</button>
+        <div class="mobile-more-menu" id="mobile-more-menu">
+          <button class="theme-toggle" id="theme-toggle-mobile" aria-label="Toggle dark mode">&#9790; Dark mode</button>
+          <div class="lang-switcher">
+            <button class="lang-trigger" aria-label="Change language">
+              <span>&#127468;&#127463; English</span>
+              <svg viewBox="0 0 12 12" fill="currentColor"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+            </button>
+            <div class="lang-menu">
+              <a href="/" class="lang-option active">&#127468;&#127463; English</a>
+              <a href="/pl/" class="lang-option">&#127477;&#127473; Polski</a>
+              <a href="/es/" class="lang-option">&#127466;&#127480; Espa&#241;ol</a>
+              <a href="/pt/" class="lang-option">&#127463;&#127479; Portugu&#234;s</a>
+              <a href="/uk/" class="lang-option">&#127482;&#127462; &#1059;&#1082;&#1088;&#1072;&#1111;&#1085;&#1089;&#1100;&#1082;&#1072;</a>
+              <a href="/fr/" class="lang-option">&#127467;&#127479; Fran&#231;ais</a>
+              <a href="/de/" class="lang-option">&#127465;&#127466; Deutsch</a>
+              <a href="/it/" class="lang-option">&#127470;&#127481; Italiano</a>
+              <a href="/ja/" class="lang-option">&#127471;&#127477; &#26085;&#26412;&#35486;</a>
+              <a href="/zh/" class="lang-option">&#127464;&#127475; &#20013;&#25991;</a>
+              <a href="/ar/" class="lang-option">&#127480;&#127462; &#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</a>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
@@ -1170,18 +1232,37 @@
     })();
   </script>
 
+  <!-- Mobile more menu toggle -->
+  <script>
+    (function() {
+      var trigger = document.querySelector('.mobile-more-trigger');
+      var menu = document.getElementById('mobile-more-menu');
+      if (!trigger || !menu) return;
+      trigger.addEventListener('click', function(e) { e.stopPropagation(); menu.classList.toggle('open'); });
+      document.addEventListener('click', function(e) {
+        if (!menu.contains(e.target)) menu.classList.remove('open');
+      });
+      // Mobile lang-switcher toggle (nested inside more menu)
+      var mTrigger = menu.querySelector('.lang-trigger');
+      var mMenu = menu.querySelector('.lang-menu');
+      if (mTrigger && mMenu) {
+        mTrigger.addEventListener('click', function(e) { e.stopPropagation(); mMenu.classList.toggle('open'); });
+      }
+    })();
+  </script>
+
   <!-- Theme toggle -->
   <script>
     (function() {
       var btn = document.getElementById('theme-toggle');
-      if (!btn) return;
+      var btnMobile = document.getElementById('theme-toggle-mobile');
       function update() {
         var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        btn.textContent = isDark ? '\u2600' : '\u263E';
-        btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+        if (btn) { btn.textContent = isDark ? '\u2600' : '\u263E'; btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode'; }
+        if (btnMobile) { btnMobile.textContent = isDark ? '\u2600 Light mode' : '\u263E Dark mode'; }
       }
       update();
-      btn.addEventListener('click', function() {
+      function toggle() {
         var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         if (isDark) {
           document.documentElement.removeAttribute('data-theme');
@@ -1191,7 +1272,9 @@
           localStorage.setItem('pn-theme', 'dark');
         }
         update();
-      });
+      }
+      if (btn) btn.addEventListener('click', toggle);
+      if (btnMobile) btnMobile.addEventListener('click', toggle);
     })();
   </script>
 
