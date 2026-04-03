@@ -112,7 +112,14 @@
     "story_p4": "So I built the tool I desperately needed: a fast, private prompt library that lives in my browser and lets me find and use any prompt in one click. No accounts, no cloud, no complexity. Just my prompts, ready when I need them.",
     "story_p5": "If you use AI tools daily, I think you'll find it as useful as I do.",
     "footer_privacy": "Privacy Policy",
-    "footer_copy": "&copy; 2026 Prompting Ninja. All rights reserved."
+    "footer_copy": "&copy; 2026 Prompting Ninja. All rights reserved.",
+    "install_title": "How to install",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>Download the zip file</a> and unzip it anywhere on your computer.",
+    "install_step2": "Open Chrome and go to <strong>chrome://extensions</strong> (paste it into your address bar).",
+    "install_step3": "Turn on <strong>Developer mode</strong> using the toggle in the top-right corner.",
+    "install_step4": "Click <strong>Load unpacked</strong> and select the unzipped folder.",
+    "install_step5": "Done! Click the shuriken icon in your toolbar to start using Prompting Ninja.",
+    "install_note": "Coming soon to the Chrome Web Store for one-click install."
   },
   "pl": {
     "_name": "Polski",
@@ -227,7 +234,14 @@
     "story_p4": "Więc zbudowałem narzędzie, którego desperacko potrzebowałem: szybką, prywatną bibliotekę promptów w przeglądarce, która pozwala znaleźć i użyć dowolny prompt jednym kliknięciem. Bez kont, bez chmury, bez komplikacji.",
     "story_p5": "Jeśli używasz narzędzi AI codziennie, myślę że uznasz to za równie przydatne jak ja.",
     "footer_privacy": "Polityka prywatności",
-    "footer_copy": "&copy; 2026 Prompting Ninja. Wszelkie prawa zastrzeżone."
+    "footer_copy": "&copy; 2026 Prompting Ninja. Wszelkie prawa zastrzeżone.",
+    "install_title": "Jak zainstalować",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>Pobierz plik zip</a> i rozpakuj go w dowolnym miejscu na komputerze.",
+    "install_step2": "Otwórz Chrome i przejdź do <strong>chrome://extensions</strong> (wklej w pasek adresu).",
+    "install_step3": "Włącz <strong>Tryb dewelopera</strong> przełącznikiem w prawym górnym rogu.",
+    "install_step4": "Kliknij <strong>Załaduj rozpakowane</strong> i wybierz rozpakowany folder.",
+    "install_step5": "Gotowe! Kliknij ikonę shuriken na pasku narzędzi, aby zacząć używać Prompting Ninja.",
+    "install_note": "Wkrótce dostępne w Chrome Web Store do instalacji jednym kliknięciem."
   },
   "es": {
     "_name": "Español",
@@ -342,7 +356,14 @@
     "story_p4": "Asi que construi la herramienta que necesitaba desesperadamente: una biblioteca de prompts rapida y privada en mi navegador que me permite encontrar y usar cualquier prompt con un clic. Sin cuentas, sin nube, sin complejidad.",
     "story_p5": "Si usas herramientas de IA a diario, creo que lo encontraras tan util como yo.",
     "footer_privacy": "Politica de privacidad",
-    "footer_copy": "&copy; 2026 Prompting Ninja. Todos los derechos reservados."
+    "footer_copy": "&copy; 2026 Prompting Ninja. Todos los derechos reservados.",
+    "install_title": "Cómo instalar",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>Descarga el archivo zip</a> y descomprímelo en cualquier lugar de tu computadora.",
+    "install_step2": "Abre Chrome y ve a <strong>chrome://extensions</strong> (pégalo en la barra de direcciones).",
+    "install_step3": "Activa el <strong>Modo de desarrollador</strong> con el interruptor en la esquina superior derecha.",
+    "install_step4": "Haz clic en <strong>Cargar descomprimida</strong> y selecciona la carpeta descomprimida.",
+    "install_step5": "¡Listo! Haz clic en el icono shuriken en tu barra de herramientas para empezar a usar Prompting Ninja.",
+    "install_note": "Próximamente en Chrome Web Store para instalación con un clic."
   },
   "pt": {
     "_name": "Português",
@@ -457,7 +478,14 @@
     "story_p4": "Entao construi a ferramenta que precisava desesperadamente: uma biblioteca de prompts rapida e privada no meu navegador que me permite encontrar e usar qualquer prompt com um clique. Sem contas, sem nuvem, sem complexidade.",
     "story_p5": "Se voce usa ferramentas de IA diariamente, acho que vai achar tao util quanto eu.",
     "footer_privacy": "Politica de privacidade",
-    "footer_copy": "&copy; 2026 Prompting Ninja. Todos os direitos reservados."
+    "footer_copy": "&copy; 2026 Prompting Ninja. Todos os direitos reservados.",
+    "install_title": "Como instalar",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>Baixe o arquivo zip</a> e descompacte-o em qualquer lugar do seu computador.",
+    "install_step2": "Abra o Chrome e vá para <strong>chrome://extensions</strong> (cole na barra de endereços).",
+    "install_step3": "Ative o <strong>Modo de desenvolvedor</strong> com o botão no canto superior direito.",
+    "install_step4": "Clique em <strong>Carregar sem compactação</strong> e selecione a pasta descompactada.",
+    "install_step5": "Pronto! Clique no ícone shuriken na barra de ferramentas para começar a usar o Prompting Ninja.",
+    "install_note": "Em breve na Chrome Web Store para instalação com um clique."
   },
   "uk": {
     "_name": "Українська",
@@ -572,7 +600,14 @@
     "story_p4": "Тому я створив інструмент, який відчайдушно потребував: швидку, приватну бібліотеку промптів у моєму браузері, яка дозволяє знайти і використати будь-який промпт одним кліком. Без акаунтів, без хмари, без складності.",
     "story_p5": "Якщо ви використовуєте AI інструменти щодня, думаю, ви знайдете це таким же корисним, як і я.",
     "footer_privacy": "Політика конфіденційності",
-    "footer_copy": "&copy; 2026 Prompting Ninja. Усі права захищені."
+    "footer_copy": "&copy; 2026 Prompting Ninja. Усі права захищені.",
+    "install_title": "Як встановити",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>Завантажте zip-файл</a> та розпакуйте його будь-де на комп'ютері.",
+    "install_step2": "Відкрийте Chrome та перейдіть до <strong>chrome://extensions</strong> (вставте в адресний рядок).",
+    "install_step3": "Увімкніть <strong>Режим розробника</strong> перемикачем у правому верхньому куті.",
+    "install_step4": "Натисніть <strong>Завантажити розпаковане</strong> та виберіть розпаковану папку.",
+    "install_step5": "Готово! Натисніть іконку shuriken на панелі інструментів, щоб почати використовувати Prompting Ninja.",
+    "install_note": "Незабаром у Chrome Web Store для встановлення в один клік."
   },
   "fr": {
     "_name": "Français",
@@ -687,7 +722,14 @@
     "story_p4": "Alors j'ai construit l'outil dont j'avais desesperement besoin: une bibliotheque de prompts rapide et privee dans mon navigateur qui me permet de trouver et utiliser n'importe quel prompt en un clic. Sans comptes, sans cloud, sans complexite.",
     "story_p5": "Si vous utilisez des outils IA quotidiennement, je pense que vous le trouverez aussi utile que moi.",
     "footer_privacy": "Politique de confidentialite",
-    "footer_copy": "&copy; 2026 Prompting Ninja. Tous droits reserves."
+    "footer_copy": "&copy; 2026 Prompting Ninja. Tous droits reserves.",
+    "install_title": "Comment installer",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>Téléchargez le fichier zip</a> et décompressez-le n'importe où sur votre ordinateur.",
+    "install_step2": "Ouvrez Chrome et allez à <strong>chrome://extensions</strong> (collez-le dans la barre d'adresse).",
+    "install_step3": "Activez le <strong>Mode développeur</strong> avec le bouton en haut à droite.",
+    "install_step4": "Cliquez sur <strong>Charger l'extension non empaquetée</strong> et sélectionnez le dossier décompressé.",
+    "install_step5": "C'est fait ! Cliquez sur l'icône shuriken dans votre barre d'outils pour commencer à utiliser Prompting Ninja.",
+    "install_note": "Bientôt disponible sur le Chrome Web Store pour une installation en un clic."
   },
   "de": {
     "_name": "Deutsch",
@@ -802,7 +844,14 @@
     "story_p4": "Also habe ich das Werkzeug gebaut, das ich dringend brauchte: eine schnelle, private Prompt-Bibliothek in meinem Browser, die mich jeden Prompt mit einem Klick finden und nutzen laesst. Ohne Konten, ohne Cloud, ohne Komplexitaet.",
     "story_p5": "Wenn du KI-Tools taeglich nutzt, glaube ich, dass du es genauso nuetzlich findest wie ich.",
     "footer_privacy": "Datenschutzerklaerung",
-    "footer_copy": "&copy; 2026 Prompting Ninja. Alle Rechte vorbehalten."
+    "footer_copy": "&copy; 2026 Prompting Ninja. Alle Rechte vorbehalten.",
+    "install_title": "So installierst du es",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>Lade die ZIP-Datei herunter</a> und entpacke sie an einem beliebigen Ort auf deinem Computer.",
+    "install_step2": "Öffne Chrome und gehe zu <strong>chrome://extensions</strong> (füge es in die Adressleiste ein).",
+    "install_step3": "Aktiviere den <strong>Entwicklermodus</strong> mit dem Schalter oben rechts.",
+    "install_step4": "Klicke auf <strong>Entpackte Erweiterung laden</strong> und wähle den entpackten Ordner aus.",
+    "install_step5": "Fertig! Klicke auf das Shuriken-Symbol in deiner Symbolleiste, um Prompting Ninja zu starten.",
+    "install_note": "Bald im Chrome Web Store für die Installation mit einem Klick."
   },
   "it": {
     "_name": "Italiano",
@@ -917,7 +966,14 @@
     "story_p4": "Cosi ho costruito lo strumento di cui avevo disperatamente bisogno: una libreria di prompt veloce e privata nel mio browser che mi permette di trovare e usare qualsiasi prompt con un clic. Senza account, senza cloud, senza complessita.",
     "story_p5": "Se usi strumenti IA quotidianamente, credo che lo troverai utile quanto me.",
     "footer_privacy": "Informativa sulla privacy",
-    "footer_copy": "&copy; 2026 Prompting Ninja. Tutti i diritti riservati."
+    "footer_copy": "&copy; 2026 Prompting Ninja. Tutti i diritti riservati.",
+    "install_title": "Come installare",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>Scarica il file zip</a> e decomprimilo in qualsiasi posizione sul tuo computer.",
+    "install_step2": "Apri Chrome e vai su <strong>chrome://extensions</strong> (incollalo nella barra degli indirizzi).",
+    "install_step3": "Attiva la <strong>Modalità sviluppatore</strong> con l'interruttore in alto a destra.",
+    "install_step4": "Fai clic su <strong>Carica estensione non pacchettizzata</strong> e seleziona la cartella decompressa.",
+    "install_step5": "Fatto! Fai clic sull'icona shuriken nella barra degli strumenti per iniziare a usare Prompting Ninja.",
+    "install_note": "Presto disponibile nel Chrome Web Store per l'installazione con un clic."
   },
   "ja": {
     "_name": "日本語",
@@ -1032,7 +1088,14 @@
     "story_p4": "だから切実に必要としていたツールを作りました：ブラウザに住む高速でプライベートなプロンプトライブラリ。ワンクリックであらゆるプロンプトを見つけて使えます。アカウントなし、クラウドなし、複雑さなし。",
     "story_p5": "AIツールを毎日使っているなら、私と同じように便利だと思ってもらえるはずです。",
     "footer_privacy": "プライバシーポリシー",
-    "footer_copy": "&copy; 2026 Prompting Ninja. All rights reserved."
+    "footer_copy": "&copy; 2026 Prompting Ninja. All rights reserved.",
+    "install_title": "インストール方法",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>zipファイルをダウンロード</a>して、コンピュータの任意の場所に解凍してください。",
+    "install_step2": "Chromeを開き、<strong>chrome://extensions</strong>にアクセスしてください（アドレスバーに貼り付けてください）。",
+    "install_step3": "右上の切り替えスイッチで<strong>デベロッパーモード</strong>をオンにしてください。",
+    "install_step4": "<strong>パッケージ化されていない拡張機能を読み込む</strong>をクリックして、解凍したフォルダを選択してください。",
+    "install_step5": "完了！ツールバーの手裏剣アイコンをクリックして、Prompting Ninjaを使い始めましょう。",
+    "install_note": "ワンクリックインストールのためにChrome Web Storeに近日公開予定。"
   },
   "zh": {
     "_name": "中文",
@@ -1147,7 +1210,14 @@
     "story_p4": "所以我构建了我迫切需要的工具：一个在浏览器中的快速、私密的提示词库，让我一键找到并使用任何提示词。没有账户、没有云、没有复杂性。",
     "story_p5": "如果你每天使用AI工具，我相信你会发现它和我一样有用。",
     "footer_privacy": "隐私政策",
-    "footer_copy": "&copy; 2026 Prompting Ninja. 保留所有权利。"
+    "footer_copy": "&copy; 2026 Prompting Ninja. 保留所有权利。",
+    "install_title": "如何安装",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>下载zip文件</a>并解压到电脑上的任意位置。",
+    "install_step2": "打开Chrome浏览器，访问<strong>chrome://extensions</strong>（粘贴到地址栏中）。",
+    "install_step3": "使用右上角的开关打开<strong>开发者模式</strong>。",
+    "install_step4": "点击<strong>加载已解压的扩展程序</strong>并选择解压后的文件夹。",
+    "install_step5": "完成！点击工具栏中的手裏剣图标即可开始使用Prompting Ninja。",
+    "install_note": "即将上架Chrome Web Store，届时可一键安装。"
   },
   "ar": {
     "_name": "العربية",
@@ -1262,6 +1332,13 @@
     "story_p4": "لذا بنيت الأداة التي كنت بحاجة ماسة إليها: مكتبة prompts سريعة وخاصة في متصفحي تتيح لي إيجاد واستخدام أي prompt بنقرة واحدة. بدون حسابات أو سحابة أو تعقيد.",
     "story_p5": "إذا كنت تستخدم أدوات الذكاء الاصطناعي يومياً، أعتقد أنك ستجدها مفيدة بقدر ما وجدتها أنا.",
     "footer_privacy": "سياسة الخصوصية",
-    "footer_copy": "&copy; 2026 Prompting Ninja. جميع الحقوق محفوظة."
+    "footer_copy": "&copy; 2026 Prompting Ninja. جميع الحقوق محفوظة.",
+    "install_title": "كيفية التثبيت",
+    "install_step1": "<a href=\"prompting-ninja.zip\" download>قم بتنزيل ملف zip</a> وفك ضغطه في أي مكان على جهاز الكمبيوتر.",
+    "install_step2": "افتح Chrome وانتقل إلى <strong>chrome://extensions</strong> (الصقه في شريط العنوان).",
+    "install_step3": "قم بتفعيل <strong>وضع المطور</strong> باستخدام المفتاح في الزاوية العلوية اليمنى.",
+    "install_step4": "انقر على <strong>تحميل غير مضغوط</strong> واختر المجلد المفكوك.",
+    "install_step5": "تم! انقر على أيقونة الشوريكن في شريط الأدوات لبدء استخدام Prompting Ninja.",
+    "install_note": "قريبًا في Chrome Web Store للتثبيت بنقرة واحدة."
   }
 }
