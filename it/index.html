@@ -861,7 +861,7 @@
       background: #111111; padding: 4px 0;
       overflow-y: auto;
     }
-    .mobile-more-menu .lang-menu.open { display: block; }
+    .mobile-more-menu .lang-menu.open { display: block !important; }
     .mobile-more-menu .lang-option { padding: 8px 12px; border-radius: 6px; }
 
     @media (max-width: 768px) {
@@ -897,11 +897,11 @@
       <a href="#install" class="nav-cta" data-i18n="nav_cta">Aggiungi a Chrome</a>
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">&#9790;</button>
             <div class="lang-switcher" id="lang-switcher">
-        <button class="lang-trigger" aria-label="Change language">
+        <button class="lang-trigger" id="desktop-lang-trigger" aria-label="Change language">
           <span id="lang-current">🇮🇹 Italiano</span>
           <svg viewBox="0 0 12 12" fill="currentColor"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
         </button>
-        <div class="lang-menu">
+        <div class="lang-menu" id="desktop-lang-menu">
           <a href="/" class="lang-option">🇬🇧 English</a>
           <a href="/pl/" class="lang-option">🇵🇱 Polski</a>
           <a href="/es/" class="lang-option">🇪🇸 Español</a>
@@ -920,11 +920,11 @@
         <div class="mobile-more-menu" id="mobile-more-menu">
           <button class="theme-toggle" id="theme-toggle-mobile" aria-label="Toggle dark mode">&#9790; Dark mode</button>
                 <div class="lang-switcher">
-        <button class="lang-trigger" aria-label="Change language">
-          <span id="lang-current">🇮🇹 Italiano</span>
+        <button class="lang-trigger" id="mobile-lang-trigger" aria-label="Change language">
+          <span>🇮🇹 Italiano</span>
           <svg viewBox="0 0 12 12" fill="currentColor"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
         </button>
-        <div class="lang-menu">
+        <div class="lang-menu" id="mobile-lang-menu">
           <a href="/" class="lang-option">🇬🇧 English</a>
           <a href="/pl/" class="lang-option">🇵🇱 Polski</a>
           <a href="/es/" class="lang-option">🇪🇸 Español</a>
@@ -1225,32 +1225,59 @@
     <p data-i18n="footer_copy">&copy; 2026 Prompting Ninja. Tutti i diritti riservati.</p>
   </footer>
 
+  <!-- Desktop lang-switcher + Mobile more menu (unified, no interference) -->
   <script>
     (function() {
-      var t = document.querySelector('.lang-trigger');
-      var m = document.querySelector('.lang-menu');
-      if (!t || !m) return;
-      t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
-      document.addEventListener('click', function() { m.classList.remove('open'); });
-    })();
-  </script>
+      // --- Desktop lang dropdown ---
+      var dTrigger = document.getElementById('desktop-lang-trigger');
+      var dMenu = document.getElementById('desktop-lang-menu');
 
-  <!-- Mobile more menu toggle -->
-  <script>
-    (function() {
-      var trigger = document.querySelector('.mobile-more-trigger');
-      var menu = document.getElementById('mobile-more-menu');
-      if (!trigger || !menu) return;
-      trigger.addEventListener('click', function(e) { e.stopPropagation(); menu.classList.toggle('open'); });
-      document.addEventListener('click', function(e) {
-        if (!menu.contains(e.target)) menu.classList.remove('open');
-      });
-      // Mobile lang-switcher toggle (nested inside more menu)
-      var mTrigger = menu.querySelector('.lang-trigger');
-      var mMenu = menu.querySelector('.lang-menu');
-      if (mTrigger && mMenu) {
-        mTrigger.addEventListener('click', function(e) { e.stopPropagation(); mMenu.classList.toggle('open'); });
+      if (dTrigger && dMenu) {
+        dTrigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dMenu.classList.toggle('open');
+        });
       }
+
+      // --- Mobile more menu ---
+      var moreTrigger = document.querySelector('.mobile-more-trigger');
+      var moreMenu = document.getElementById('mobile-more-menu');
+      var mLangTrigger = document.getElementById('mobile-lang-trigger');
+      var mLangMenu = document.getElementById('mobile-lang-menu');
+
+      if (moreTrigger && moreMenu) {
+        moreTrigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          moreMenu.classList.toggle('open');
+          // Close mobile lang submenu when closing the more menu
+          if (!moreMenu.classList.contains('open') && mLangMenu) {
+            mLangMenu.classList.remove('open');
+          }
+        });
+      }
+
+      if (mLangTrigger && mLangMenu) {
+        mLangTrigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          mLangMenu.classList.toggle('open');
+        });
+      }
+
+      // --- Single document click handler to close everything ---
+      document.addEventListener('click', function(e) {
+        // Close desktop lang menu if click is outside it
+        if (dMenu && dTrigger && !dTrigger.contains(e.target) && !dMenu.contains(e.target)) {
+          dMenu.classList.remove('open');
+        }
+        // Close mobile more menu if click is outside it
+        if (moreMenu && moreTrigger && !moreTrigger.contains(e.target) && !moreMenu.contains(e.target)) {
+          moreMenu.classList.remove('open');
+          if (mLangMenu) mLangMenu.classList.remove('open');
+        }
+      });
     })();
   </script>
 

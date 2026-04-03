@@ -64,16 +64,22 @@ function buildHreflangTags(locales, pagePath) {
   return lines.join('\n');
 }
 
-function buildLangSwitcher(currentLocale, pagePath) {
+function buildLangSwitcher(currentLocale, pagePath, mobile) {
   const suffix = pagePath || '';
   const currentMeta = LANG_META[currentLocale] || LANG_META.en;
   const lines = [];
-  lines.push('      <div class="lang-switcher" id="lang-switcher">');
-  lines.push('        <button class="lang-trigger" aria-label="Change language">');
-  lines.push(`          <span id="lang-current">${currentMeta.flag} ${currentMeta.name}</span>`);
+  if (mobile) {
+    lines.push('      <div class="lang-switcher">');
+    lines.push('        <button class="lang-trigger" id="mobile-lang-trigger" aria-label="Change language">');
+    lines.push(`          <span>${currentMeta.flag} ${currentMeta.name}</span>`);
+  } else {
+    lines.push('      <div class="lang-switcher" id="lang-switcher">');
+    lines.push('        <button class="lang-trigger" id="desktop-lang-trigger" aria-label="Change language">');
+    lines.push(`          <span id="lang-current">${currentMeta.flag} ${currentMeta.name}</span>`);
+  }
   lines.push('          <svg viewBox="0 0 12 12" fill="currentColor"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>');
   lines.push('        </button>');
-  lines.push('        <div class="lang-menu">');
+  lines.push(`        <div class="lang-menu"${mobile ? ' id="mobile-lang-menu"' : ' id="desktop-lang-menu"'}>`);
   for (const [locale, meta] of Object.entries(LANG_META)) {
     const isActive = locale === currentLocale;
     const cls = isActive ? 'lang-option active' : 'lang-option';
@@ -164,13 +170,13 @@ function processTemplate(templateHtml, locale, translations, allLocales, pagePat
   html = replaceDataI18n(html, t);
 
   // 6. Replace ALL lang-switcher instances with locale-specific version
-  const switcherHtml = buildLangSwitcher(locale, pagePath);
-  const mobileSwitcherHtml = switcherHtml.replace(' id="lang-switcher"', '');
+  const desktopSwitcherHtml = buildLangSwitcher(locale, pagePath, false);
+  const mobileSwitcherHtml = buildLangSwitcher(locale, pagePath, true);
   // Replace each lang-switcher block: find opening tag, match through closing </div></div>
   // We count div depth to find the correct closing tags
   html = html.replace(
     /<div\s+class="lang-switcher"(\s+id="lang-switcher")?>\s*<button class="lang-trigger"[\s\S]*?<\/div>\s*<\/div>/g,
-    (match, hasId) => hasId ? switcherHtml : mobileSwitcherHtml
+    (match, hasId) => hasId ? desktopSwitcherHtml : mobileSwitcherHtml
   );
 
   // 7. Fix paths for locale subdirectories (assets are in parent dir)
