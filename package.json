@@ -1,0 +1,26 @@
+{
+  "name": "prompting-ninja-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build-i18n.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krystianzajac/prompting-ninja-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/krystianzajac/prompting-ninja-site/issues"
+  },
+  "homepage": "https://github.com/krystianzajac/prompting-ninja-site#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "jsdom": "^29.0.1",
+    "serve": "^14.2.6"
+  }
+}
