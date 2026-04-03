@@ -57,13 +57,125 @@
   }
   </script>
 
+  <!-- Language persistence: save locale on visit, redirect on return -->
+  <script>
+    (function() {
+      var path = window.location.pathname;
+      var match = path.match(/^\/(pl|es|pt|uk|fr|de|it|ja|zh|ar)\//);
+      if (match) {
+        localStorage.setItem('pn-locale', match[1]);
+      } else if (path === '/' || path === '/index.html') {
+        var saved = localStorage.getItem('pn-locale');
+        if (saved && saved !== 'en') {
+          window.location.replace('/' + saved + '/');
+        }
+      }
+    })();
+  </script>
+
+  <!-- Dark mode: apply before render -->
+  <script>
+    (function() {
+      var theme = localStorage.getItem('pn-theme');
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f9fafb;
+      --bg-warm: #fffbf5;
+      --bg-dark-section: #1a1a1a;
+      --text: #1a1a1a;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --border: #e5e7eb;
+      --card-bg: #ffffff;
+      --card-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    [data-theme="dark"] {
+      --bg: #111111;
+      --bg-alt: #1a1a1a;
+      --bg-warm: #1a1a1a;
+      --bg-dark-section: #0a0a0a;
+      --text: #e5e7eb;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border: #374151;
+      --card-bg: #1f2937;
+      --card-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    [data-theme="dark"] body { background: #111111; color: #e5e7eb; }
+    [data-theme="dark"] .hero { color: #e5e7eb; }
+    [data-theme="dark"] .hero h2 { color: #e5e7eb; }
+    [data-theme="dark"] .hero p,
+    [data-theme="dark"] .hero-sub { color: #9ca3af; }
+    [data-theme="dark"] .hero-badge { background: rgba(249,115,22,0.15); }
+    [data-theme="dark"] .problem { background: #1a1a1a; }
+    [data-theme="dark"] .problem h3,
+    [data-theme="dark"] .problem p,
+    [data-theme="dark"] .problem li { color: #e5e7eb; }
+    [data-theme="dark"] .steps .step { background: #1f2937; }
+    [data-theme="dark"] .steps .step h4 { color: #e5e7eb; }
+    [data-theme="dark"] .steps .step p { color: #9ca3af; }
+    [data-theme="dark"] .features { background: #111111; }
+    [data-theme="dark"] .feature { background: #1f2937; }
+    [data-theme="dark"] .feature h4 { color: #e5e7eb; }
+    [data-theme="dark"] .feature p { color: #9ca3af; }
+    [data-theme="dark"] .section-title { color: #e5e7eb; }
+    [data-theme="dark"] .section-sub { color: #9ca3af; }
+    [data-theme="dark"] .section-label { color: #f97316; }
+    [data-theme="dark"] .library { background: #1a1a1a; }
+    [data-theme="dark"] .library-cats span { background: #1f2937; color: #e5e7eb; }
+    [data-theme="dark"] .library-example { background: #1f2937; border-color: #374151; }
+    [data-theme="dark"] .library-example h4 { color: #e5e7eb; }
+    [data-theme="dark"] .proof { background: #111111; }
+    [data-theme="dark"] .proof-stats .stat-label { color: #9ca3af; }
+    [data-theme="dark"] .testimonial { background: #1f2937; }
+    [data-theme="dark"] .testimonial p { color: #e5e7eb; }
+    [data-theme="dark"] .testimonial .author { color: #9ca3af; }
+    [data-theme="dark"] .privacy-section { background: #f9fafb00; }
+    [data-theme="dark"] .privacy-section h3 { color: #e5e7eb; }
+    [data-theme="dark"] .privacy-section p,
+    [data-theme="dark"] .privacy-section li { color: #9ca3af; }
+    [data-theme="dark"] .faq { background: #111111; }
+    [data-theme="dark"] .faq-item { background: #1f2937; }
+    [data-theme="dark"] .faq-item h4 { color: #e5e7eb; }
+    [data-theme="dark"] .faq-item p { color: #9ca3af; }
+    [data-theme="dark"] .final-cta { background: #1a1a1a; }
+    [data-theme="dark"] .final-cta h3 { color: #e5e7eb; }
+    [data-theme="dark"] .final-cta p { color: #9ca3af; }
+    [data-theme="dark"] .story { background: #111111; }
+    [data-theme="dark"] .story h3 { color: #e5e7eb; }
+    [data-theme="dark"] .story p { color: #9ca3af; }
+    [data-theme="dark"] .footer { background: #0a0a0a; border-color: #374151; color: #6b7280; }
+    [data-theme="dark"] .install-steps { background: #1a1a1a; }
+    [data-theme="dark"] .install-steps h3 { color: #e5e7eb; }
+    [data-theme="dark"] .install-steps li { color: #9ca3af; }
+
+    /* === Theme toggle === */
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid #374151;
+      border-radius: 6px;
+      color: #a1a1a6;
+      padding: 5px 8px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle:hover { border-color: #6b7280; color: #ffffff; }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: #1a1a1a;
-      background: #ffffff;
+      color: var(--text);
+      background: var(--bg);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
@@ -727,6 +839,7 @@
       <a href="/ar/#faq" data-i18n="nav_faq">الأسئلة</a>
       <a href="/ar/privacy.html" data-i18n="nav_privacy">الخصوصية</a>
       <a href="#install" class="nav-cta" data-i18n="nav_cta">أضف إلى Chrome</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">&#9790;</button>
             <div class="lang-switcher" id="lang-switcher">
         <button class="lang-trigger" aria-label="Change language">
           <span id="lang-current">🇸🇦 العربية</span>
@@ -1038,6 +1151,31 @@
       if (!t || !m) return;
       t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
       document.addEventListener('click', function() { m.classList.remove('open'); });
+    })();
+  </script>
+
+  <!-- Theme toggle -->
+  <script>
+    (function() {
+      var btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+      function update() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        btn.textContent = isDark ? '\u2600' : '\u263E';
+        btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+      }
+      update();
+      btn.addEventListener('click', function() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('pn-theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('pn-theme', 'dark');
+        }
+        update();
+      });
     })();
   </script>
 
