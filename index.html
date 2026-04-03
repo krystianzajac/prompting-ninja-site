@@ -154,9 +154,10 @@
     [data-theme="dark"] .story h3 { color: #e5e7eb; }
     [data-theme="dark"] .story p { color: #9ca3af; }
     [data-theme="dark"] .footer { background: #0a0a0a; border-color: #374151; color: #6b7280; }
-    [data-theme="dark"] .install-steps { background: #1a1a1a; }
+    [data-theme="dark"] .install-steps { background: #1a1a1a; border-color: #374151; }
     [data-theme="dark"] .install-steps h3 { color: #e5e7eb; }
     [data-theme="dark"] .install-steps li { color: #9ca3af; }
+    [data-theme="dark"] .install-steps li strong { color: #e5e7eb; }
 
     /* === Theme toggle === */
     .theme-toggle {
@@ -771,41 +772,56 @@
     /* === Install section === */
     .install-steps {
       background: #f9fafb;
-      padding: 48px 24px;
-      max-width: 720px;
-      margin: 0 auto;
+      padding: 64px 24px;
+      border-top: 1px solid #e5e7eb;
     }
-    .install-steps h3 { font-size: 24px; font-weight: 700; margin-bottom: 24px; text-align: center; }
+    .install-steps h3 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 32px;
+      text-align: center;
+      letter-spacing: -0.5px;
+    }
     .install-steps ol {
       list-style: none;
       counter-reset: step;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      max-width: 560px;
+      max-width: 520px;
       margin: 0 auto;
+      padding: 0;
     }
     .install-steps li {
       counter-increment: step;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 15px;
-      line-height: 1.5;
+      position: relative;
+      padding: 0 0 24px 52px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #374151;
     }
+    .install-steps li:last-child { padding-bottom: 0; }
     .install-steps li::before {
       content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
       background: #f97316;
       color: #fff;
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
       font-size: 14px;
-      flex-shrink: 0;
+    }
+    .install-steps li strong { color: #1a1a1a; }
+    .install-steps li a { color: #f97316; font-weight: 600; }
+    .install-steps li a:hover { text-decoration: underline; }
+    .install-steps .install-note {
+      text-align: center;
+      margin-top: 32px;
+      color: #9ca3af;
+      font-size: 14px;
     }
 
     @media (max-width: 768px) {
@@ -1110,13 +1126,13 @@
   <section class="install-steps" id="install">
     <h3>How to install</h3>
     <ol>
-      <li><a href="prompting-ninja.zip" download style="color: #f97316; font-weight: 600;">Download the zip file</a> and unzip it anywhere on your computer.</li>
-      <li>Open Chrome and go to <strong>chrome://extensions</strong> (paste it into the address bar).</li>
-      <li>Turn on <strong>Developer mode</strong> (toggle in the top-right corner).</li>
+      <li><a href="prompting-ninja.zip" download>Download the zip file</a> and unzip it anywhere on your computer.</li>
+      <li>Open Chrome and go to <strong>chrome://extensions</strong> (paste it into your address bar).</li>
+      <li>Turn on <strong>Developer mode</strong> using the toggle in the top-right corner.</li>
       <li>Click <strong>Load unpacked</strong> and select the unzipped folder.</li>
       <li>Done! Click the shuriken icon in your toolbar to start using Prompting Ninja.</li>
     </ol>
-    <p style="text-align: center; margin-top: 24px; color: #6b7280; font-size: 14px;">Coming soon to the Chrome Web Store for one-click install.</p>
+    <p class="install-note">Coming soon to the Chrome Web Store for one-click install.</p>
   </section>
 
   <!-- Story -->
