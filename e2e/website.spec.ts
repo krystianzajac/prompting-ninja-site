@@ -134,6 +134,8 @@ test.describe('Dark mode contrast', () => {
     await page.goto('/');
     await page.locator('#theme-toggle').click();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    // Wait for CSS transitions to complete (elements use transition: all 0.15s)
+    await page.waitForTimeout(250);
 
     // Check contrast on representative elements
     const selectors = [
@@ -152,21 +154,22 @@ test.describe('Dark mode contrast', () => {
         return { color: cs.color, bg: cs.backgroundColor };
       });
 
-      // If bg is transparent, walk up to find an opaque ancestor
-      let bg = styles.bg;
-      if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
-        bg = await el.evaluate((node) => {
-          let current = node.parentElement;
-          while (current) {
-            const cs = window.getComputedStyle(current);
-            if (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent') {
-              return cs.backgroundColor;
-            }
-            current = current.parentElement;
+      // Resolve effective background by walking up the DOM tree,
+      // compositing non-transparent backgrounds along the way
+      const bg = await el.evaluate((node) => {
+        let current: Element | null = node;
+        while (current) {
+          const cs = window.getComputedStyle(current);
+          const bg = cs.backgroundColor;
+          if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+            return bg;
           }
-          return 'rgb(0, 0, 0)'; // fallback to black for dark mode body
-        });
-      }
+          current = current.parentElement;
+        }
+        // Fallback: use body bg, or dark default
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        return bodyBg !== 'rgba(0, 0, 0, 0)' ? bodyBg : 'rgb(17, 17, 17)';
+      });
 
       const ratio = contrastRatio(styles.color, bg);
       // WCAG AA requires >= 4.5 for normal text, >= 3 for large text
