@@ -65,11 +65,26 @@
       if (match) {
         localStorage.setItem('pn-locale', match[1]);
       } else if (path === '/' || path === '/index.html') {
+        // Only auto-redirect if user hasn't explicitly chosen English
+        // (clicking English link sets pn-locale to 'en')
         var saved = localStorage.getItem('pn-locale');
         if (saved && saved !== 'en') {
           window.location.replace('/' + saved + '/');
         }
       }
+      // When any lang-option link is clicked, save the choice before navigating
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest('.lang-option');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href) return;
+        var localeMatch = href.match(/^\/(pl|es|pt|uk|fr|de|it|ja|zh|ar)\//);
+        if (localeMatch) {
+          localStorage.setItem('pn-locale', localeMatch[1]);
+        } else if (href === '/' || href === '/index.html' || href === '/privacy.html') {
+          localStorage.setItem('pn-locale', 'en');
+        }
+      });
     })();
   </script>
 
