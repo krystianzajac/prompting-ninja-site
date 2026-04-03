@@ -1040,5 +1040,18 @@
       document.addEventListener('click', function() { m.classList.remove('open'); });
     })();
   </script>
+
+  <!-- GDPR Privacy Notice -->
+  <div id="privacy-notice" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#1a1a1a; color:#a1a1a6; padding:16px 24px; z-index:999; font-size:13px; line-height:1.5; box-shadow:0 -2px 12px rgba(0,0,0,0.15);">
+    <div style="max-width:960px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <p style="margin:0; flex:1; min-width:200px;">This website does not use cookies or tracking. We store your language preference locally in your browser. See our <a href="/ar/privacy.html" style="color:#f97316;">Privacy Policy</a> for details.</p>
+      <button onclick="document.getElementById('privacy-notice').style.display='none';localStorage.setItem('pn-privacy-ok','1');" style="background:#f97316; color:#fff; border:none; padding:8px 20px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap; transition:background 0.15s ease;">Got it</button>
+    </div>
+  </div>
+  <script>
+    if (!localStorage.getItem('pn-privacy-ok')) {
+      document.getElementById('privacy-notice').style.display = 'block';
+    }
+  </script>
 </body>
 </html>
