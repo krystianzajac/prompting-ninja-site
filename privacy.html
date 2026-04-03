@@ -65,6 +65,50 @@
     }
     .nav a:hover { color: #ffffff; }
 
+    .nav-cta {
+      background: #f97316 !important;
+      color: #fff !important;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      transition: background 0.15s ease !important;
+    }
+    .nav-cta:hover { background: #ea580c !important; }
+
+    /* === Language switcher === */
+    .lang-switcher { position: relative; }
+    .lang-trigger {
+      display: flex; align-items: center; gap: 6px;
+      background: transparent; border: 1px solid #374151;
+      border-radius: 6px; color: #a1a1a6;
+      font-size: 13px; font-weight: 500;
+      padding: 6px 10px; cursor: pointer;
+      transition: all 0.15s ease; font-family: inherit;
+      white-space: nowrap;
+    }
+    .lang-trigger:hover { border-color: #6b7280; color: #ffffff; }
+    .lang-trigger svg { width: 10px; height: 10px; transition: transform 0.15s ease; }
+    .lang-menu {
+      display: none; position: absolute;
+      top: calc(100% + 8px); right: 0;
+      background: #1a1a1a; border: 1px solid #374151;
+      border-radius: 8px; padding: 4px 0;
+      min-width: 160px; max-height: 320px;
+      overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 200;
+    }
+    .lang-menu.open { display: block; }
+    .lang-option {
+      display: block; padding: 8px 14px;
+      color: #a1a1a6; font-size: 13px;
+      text-decoration: none; transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .lang-option:hover { background: #374151; color: #ffffff; }
+    .lang-option.active { color: #f97316; font-weight: 600; }
+    [dir="rtl"] .lang-menu { left: 0; right: auto; }
+    [dir="rtl"] .lang-option { text-align: right; }
+
     .container {
       max-width: 640px;
       margin: 0 auto;
@@ -127,76 +171,14 @@
     .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 12px; }
 
     @media (max-width: 768px) {
-      .header { padding: 12px 16px;   .nav a:not(.nav-cta) { display: none; }
-      .lang-switcher { display: flex; }
-    }
+      .header { padding: 0 16px; }
       .container { padding: 32px 16px; }
+      .nav a:not(.nav-cta) { display: none; }
+      .nav { gap: 12px; }
+      .lang-switcher { display: block; }
+      .lang-switcher a { display: none; }
+      .lang-trigger { font-size: 12px; padding: 5px 8px; }
     }
-  
-    .nav-cta {
-      background: #f97316 !important;
-      color: #fff !important;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      transition: background 0.15s ease !important;
-    }
-    .nav-cta:hover { background: #ea580c !important; }
-
-    .lang-switcher { position: relative; }
-    .lang-trigger {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #a1a1a6;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-      white-space: nowrap;
-    }
-    .lang-trigger:hover { color: #ffffff; border-color: rgba(255,255,255,0.3); }
-    .lang-trigger svg { width: 12px; height: 12px; opacity: 0.6; }
-    .lang-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      background: #1a1a1a;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
-      padding: 6px;
-      min-width: 160px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      z-index: 200;
-      max-height: 320px;
-      overflow-y: scroll;
-    }
-    .lang-menu.open { display: block; }
-    .lang-option {
-      display: block;
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: #a1a1a6;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.15s ease;
-      white-space: nowrap;
-      text-decoration: none;
-    }
-    .lang-option:hover { background: rgba(255,255,255,0.08); color: #ffffff; }
-    .lang-option.active { color: #f97316; background: rgba(249,115,22,0.1); }
-    [dir="rtl"] .lang-menu { left: 0; right: auto; }
-    [dir="rtl"] .lang-option { text-align: right; }
   </style>
 </head>
 <body>
@@ -206,29 +188,29 @@
       <img src="icon48.png" alt="Prompting Ninja" width="28" height="28">
       <h1><span class="prompting">Prompting</span> <span class="ninja">Ninja</span></h1>
     </a>
-        <nav class="nav">
+    <nav class="nav">
       <a href="/#features" data-i18n="nav_features">Features</a>
       <a href="/#library" data-i18n="nav_library">Library</a>
       <a href="/#faq" data-i18n="nav_faq">FAQ</a>
       <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
       <a href="#" class="nav-cta" data-i18n="nav_cta">Add to Chrome</a>
-                        <div class="lang-switcher" id="lang-switcher">
+      <div class="lang-switcher" id="lang-switcher">
         <button class="lang-trigger" aria-label="Change language">
-          <span id="lang-current">🇬🇧 English</span>
+          <span id="lang-current">&#127468;&#127463; English</span>
           <svg viewBox="0 0 12 12" fill="currentColor"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
         </button>
         <div class="lang-menu">
-          <a href="/privacy.html" class="lang-option active">🇬🇧 English</a>
-          <a href="/pl/privacy.html" class="lang-option">🇵🇱 Polski</a>
-          <a href="/es/privacy.html" class="lang-option">🇪🇸 Español</a>
-          <a href="/pt/privacy.html" class="lang-option">🇧🇷 Português</a>
-          <a href="/uk/privacy.html" class="lang-option">🇺🇦 Українська</a>
-          <a href="/fr/privacy.html" class="lang-option">🇫🇷 Français</a>
-          <a href="/de/privacy.html" class="lang-option">🇩🇪 Deutsch</a>
-          <a href="/it/privacy.html" class="lang-option">🇮🇹 Italiano</a>
-          <a href="/ja/privacy.html" class="lang-option">🇯🇵 日本語</a>
-          <a href="/zh/privacy.html" class="lang-option">🇨🇳 中文</a>
-          <a href="/ar/privacy.html" class="lang-option">🇸🇦 العربية</a>
+          <a href="/privacy.html" class="lang-option active">&#127468;&#127463; English</a>
+          <a href="/pl/privacy.html" class="lang-option">&#127477;&#127473; Polski</a>
+          <a href="/es/privacy.html" class="lang-option">&#127466;&#127480; Espa&#241;ol</a>
+          <a href="/pt/privacy.html" class="lang-option">&#127463;&#127479; Portugu&#234;s</a>
+          <a href="/uk/privacy.html" class="lang-option">&#127482;&#127462; &#1059;&#1082;&#1088;&#1072;&#1111;&#1085;&#1089;&#1100;&#1082;&#1072;</a>
+          <a href="/fr/privacy.html" class="lang-option">&#127467;&#127479; Fran&#231;ais</a>
+          <a href="/de/privacy.html" class="lang-option">&#127465;&#127466; Deutsch</a>
+          <a href="/it/privacy.html" class="lang-option">&#127470;&#127481; Italiano</a>
+          <a href="/ja/privacy.html" class="lang-option">&#127471;&#127477; &#26085;&#26412;&#35486;</a>
+          <a href="/zh/privacy.html" class="lang-option">&#127464;&#127475; &#20013;&#25991;</a>
+          <a href="/ar/privacy.html" class="lang-option">&#127480;&#127462; &#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</a>
         </div>
       </div>
     </nav>
@@ -272,40 +254,13 @@
     <p>If you have questions about this privacy policy, reach out to <a href="https://x.com/krystianzajac">@krystianzajac on X</a>.</p>
   </div>
 
-    <footer class="footer">
+  <footer class="footer">
     <div class="footer-links">
-      <a href="privacy.html" data-i18n="footer_privacy">Privacy Policy</a>
+      <a href="/" data-i18n="footer_privacy">Privacy Policy</a>
     </div>
     <p data-i18n="footer_copy">&copy; 2026 Prompting Ninja. All rights reserved.</p>
   </footer>
 
-  <script>
-    (function() {
-      var t = document.querySelector('.lang-trigger');
-      var m = document.querySelector('.lang-menu');
-      if (!t || !m) return;
-      t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
-      document.addEventListener('click', function() { m.classList.remove('open'); });
-    })();
-  </script>
-  <script>
-    (function() {
-      var t = document.querySelector('.lang-trigger');
-      var m = document.querySelector('.lang-menu');
-      if (!t || !m) return;
-      t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
-      document.addEventListener('click', function() { m.classList.remove('open'); });
-    })();
-  </script>
-  <script>
-    (function() {
-      var t = document.querySelector('.lang-trigger');
-      var m = document.querySelector('.lang-menu');
-      if (!t || !m) return;
-      t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
-      document.addEventListener('click', function() { m.classList.remove('open'); });
-    })();
-  </script>
   <script>
     (function() {
       var t = document.querySelector('.lang-trigger');

@@ -2,15 +2,17 @@
 /**
  * build-i18n.js - Static site generator for locale pages
  *
- * Reads index.html and privacy.html as templates (from git HEAD for idempotency),
- * generates /{locale}/ directories with translated pages for each locale.
+ * Reads index.html and privacy.html as templates (local files),
+ * generates /{locale}/ directories with translated pages for each non-English locale.
+ *
+ * The root index.html and privacy.html ARE the English pages AND templates.
+ * They are never overwritten by this script.
  *
  * Usage: node build-i18n.js
  */
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 const SITE_DIR = __dirname;
 const TRANSLATIONS_PATH = path.join(SITE_DIR, 'translations.json');
@@ -41,20 +43,12 @@ function loadTranslations() {
 }
 
 /**
- * Load template, stripping any prior build artifacts for idempotency.
- * Prefers git HEAD if it has data-i18n markers (fully prepared template).
- * Falls back to local file with build artifacts stripped.
+ * Load template from local file. The local files are the English pages
+ * AND the templates. They contain data-i18n attributes, hreflang tags,
+ * lang-switcher HTML/CSS, and toggle script already.
  */
 function loadTemplate(filename) {
-  let html;
-  try {
-    const git = execSync(`git show HEAD:${filename}`, { cwd: SITE_DIR, encoding: 'utf8' });
-    if (git.includes('data-i18n=')) return git;
-  } catch { /* no git or file not tracked */ }
-  html = fs.readFileSync(path.join(SITE_DIR, filename), 'utf8');
-  // Strip prior build artifacts so the build is idempotent
-  html = html.replace(/\s*<link\s+rel="alternate"\s+hreflang="[^"]*"\s+href="[^"]*">/g, '');
-  return html;
+  return fs.readFileSync(path.join(SITE_DIR, filename), 'utf8');
 }
 
 function buildHreflangTags(locales, pagePath) {
@@ -96,6 +90,10 @@ function buildLangSwitcher(currentLocale, pagePath) {
   return lines.join('\n');
 }
 
+/**
+ * Replace data-i18n element content with translated text.
+ * KEEPS the data-i18n attribute in the output.
+ */
 function replaceDataI18n(html, translations) {
   return html.replace(
     /(<([a-z][a-z0-9]*)\b[^>]*data-i18n="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/gi,
@@ -109,8 +107,12 @@ function replaceDataI18n(html, translations) {
 }
 
 /**
- * Process a template for a given locale
- * @param {string} pagePath '' for index, 'privacy.html' for privacy
+ * Process a template for a given locale.
+ * @param {string} templateHtml - The English template HTML
+ * @param {string} locale - Target locale code
+ * @param {object} translations - Full translations object
+ * @param {string[]} allLocales - All locale codes
+ * @param {string} pagePath - '' for index, 'privacy.html' for privacy
  */
 function processTemplate(templateHtml, locale, translations, allLocales, pagePath) {
   let html = templateHtml;
@@ -125,7 +127,7 @@ function processTemplate(templateHtml, locale, translations, allLocales, pagePat
     html = html.replace(/<html\s+lang="[^"]*"/, `<html lang="${locale}"`);
   }
 
-  // 2. Update title, meta, OG tags (index pages only - privacy keeps its own)
+  // 2. Update title, meta, OG tags (index pages only)
   if (isIndexPage) {
     if (t.hero_title) {
       const plainTitle = stripHtml(t.hero_title).replace(/\s+/g, ' ').trim();
@@ -140,190 +142,45 @@ function processTemplate(templateHtml, locale, translations, allLocales, pagePat
       html = html.replace(/<meta\s+name="twitter:description"\s+content="[^"]*">/, `<meta name="twitter:description" content="${plainDesc.replace(/"/g, '&quot;')}">`);
     }
     // Update OG URL
-    const ogUrl = locale === DEFAULT_LOCALE ? `${BASE_URL}/` : `${BASE_URL}/${locale}/`;
+    const ogUrl = `${BASE_URL}/${locale}/`;
     html = html.replace(/<meta\s+property="og:url"\s+content="[^"]*">/, `<meta property="og:url" content="${ogUrl}">`);
   }
 
-  // 3. Set canonical URL (insert if missing)
-  const canonicalPath = locale === DEFAULT_LOCALE
-    ? (pagePath || '')
-    : (pagePath ? `${locale}/${pagePath}` : `${locale}/`);
+  // 3. Update canonical URL
+  const canonicalPath = pagePath ? `${locale}/${pagePath}` : `${locale}/`;
   const canonicalTag = `<link rel="canonical" href="${BASE_URL}/${canonicalPath}">`;
+  html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*">/, canonicalTag);
 
-  if (/<link\s+rel="canonical"/.test(html)) {
-    html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*">/, canonicalTag);
-  } else {
-    // Insert canonical after last <meta> in <head>
-    html = html.replace(/(<meta[^>]*>)(\s*<link\s+rel="icon")/, `$1\n  ${canonicalTag}$2`);
-  }
-
-  // 4. Insert hreflang tags after canonical
-  const hreflangTags = buildHreflangTags(allLocales, pagePath);
+  // 4. Replace hreflang tags (template already has them, just replace the block)
+  const hreflangBlock = buildHreflangTags(allLocales, pagePath);
+  // Remove all existing hreflang tags and insert new ones after canonical
+  html = html.replace(/\s*<link\s+rel="alternate"\s+hreflang="[^"]*"\s+href="[^"]*">/g, '');
   html = html.replace(
     /(<link\s+rel="canonical"\s+href="[^"]*">)/,
-    `$1\n${hreflangTags}`
+    `$1\n${hreflangBlock}`
   );
 
-  // 5. Inject nav-cta and lang-switcher CSS if missing (for pages like privacy.html)
-  if (!(/\.nav-cta/.test(html))) {
-    const extraCss = `
-    .nav-cta {
-      background: #f97316 !important;
-      color: #fff !important;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      transition: background 0.15s ease !important;
-    }
-    .nav-cta:hover { background: #ea580c !important; }
-
-    .lang-switcher { position: relative; }
-    .lang-trigger {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #a1a1a6;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-      white-space: nowrap;
-    }
-    .lang-trigger:hover { color: #ffffff; border-color: rgba(255,255,255,0.3); }
-    .lang-trigger svg { width: 12px; height: 12px; opacity: 0.6; }
-    .lang-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      background: #1a1a1a;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
-      padding: 6px;
-      min-width: 160px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      z-index: 200;
-      max-height: 320px;
-      overflow-y: scroll;
-    }
-    .lang-menu.open { display: block; }
-    .lang-option {
-      display: block;
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: #a1a1a6;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.15s ease;
-      white-space: nowrap;
-      text-decoration: none;
-    }
-    .lang-option:hover { background: rgba(255,255,255,0.08); color: #ffffff; }
-    .lang-option.active { color: #f97316; background: rgba(249,115,22,0.1); }
-    [dir="rtl"] .lang-menu { left: 0; right: auto; }
-    [dir="rtl"] .lang-option { text-align: right; }`;
-
-    // Also fix mobile breakpoint to hide nav links and show switcher
-    html = html.replace(
-      /(@media\s*\(max-width:\s*768px\)\s*\{[^}]*)\}/,
-      `$1  .nav a:not(.nav-cta) { display: none; }\n      .lang-switcher { display: flex; }\n    }`
-    );
-
-    // Inject CSS before </style>
-    html = html.replace('</style>', extraCss + '\n  </style>');
-
-    // Make header sticky if not already
-    if (!/position:\s*sticky/.test(html.split('</style>')[0])) {
-      html = html.replace(
-        /\.header\s*\{([^}]*)\}/,
-        (match, inner) => `.header {${inner}  position: sticky;\n      top: 0;\n      z-index: 100;\n    }`
-      );
-    }
-  }
-
-  // 6. Replace data-i18n content
+  // 5. Replace data-i18n content (keeps data-i18n attributes)
   html = replaceDataI18n(html, t);
 
-  // 6. Replace nav and language switcher
+  // 6. Replace the lang-switcher with locale-specific version
   const switcherHtml = buildLangSwitcher(locale, pagePath);
-  const hasLangSwitcher = /class="lang-switcher"/.test(html);
-
-  if (hasLangSwitcher) {
-    // Template already has a lang-switcher: replace it
-    html = html.replace(
-      /(<nav\s+class="nav">[\s\S]*?)(<div\s+class="lang-switcher"[\s\S]*?<\/div>\s*<\/div>)\s*(<\/nav>)/,
-      `$1${switcherHtml}\n    $3`
-    );
-  } else {
-    // Template has a basic nav (e.g. privacy.html): replace entire nav with full nav + switcher
-    const sectionBase = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
-    const privacyHref = locale === DEFAULT_LOCALE ? 'privacy.html' : `/${locale}/privacy.html`;
-    const navFeatures = t.nav_features || 'Features';
-    const navLibrary = t.nav_library || 'Library';
-    const navFaq = t.nav_faq || 'FAQ';
-    const navPrivacy = t.nav_privacy || 'Privacy';
-    const navCta = t.nav_cta || 'Add to Chrome';
-
-    const fullNav = `    <nav class="nav">
-      <a href="${sectionBase}/#features" data-i18n="nav_features">${navFeatures}</a>
-      <a href="${sectionBase}/#library" data-i18n="nav_library">${navLibrary}</a>
-      <a href="${sectionBase}/#faq" data-i18n="nav_faq">${navFaq}</a>
-      <a href="${privacyHref}" data-i18n="nav_privacy">${navPrivacy}</a>
-      <a href="#" class="nav-cta" data-i18n="nav_cta">${navCta}</a>
-${switcherHtml}
-    </nav>`;
-    html = html.replace(/<nav\s+class="nav">[\s\S]*?<\/nav>/, fullNav);
-  }
-
-  // 7. Replace footer for pages without data-i18n footer
-  if (!(/data-i18n="footer_privacy"/.test(html)) && t.footer_privacy && t.footer_copy) {
-    const privacyHref = locale === DEFAULT_LOCALE ? 'privacy.html' : `/${locale}/privacy.html`;
-    const newFooter = `  <footer class="footer">
-    <div class="footer-links">
-      <a href="${privacyHref}" data-i18n="footer_privacy">${t.footer_privacy}</a>
-    </div>
-    <p data-i18n="footer_copy">${t.footer_copy}</p>
-  </footer>`;
-    html = html.replace(/<footer\s+class="footer">[\s\S]*?<\/footer>/, newFooter);
-  }
-
-  // 8. Remove client-side i18n scripts
-  html = html.replace(/\s*<script\s+src="translations\.js"><\/script>/g, '');
-  html = html.replace(/\s*<script\s+src="i18n\.js"><\/script>/g, '');
-
-  // 8. Add dropdown toggle script (minimal inline JS for the language menu)
+  // Match the lang-switcher div precisely: it contains a <button> and a <div class="lang-menu">
+  // Structure: <div class="lang-switcher"...> <button>...</button> <div class="lang-menu">...(links)...</div> </div>
   html = html.replace(
-    '</body>',
-    `  <script>
-    (function() {
-      var t = document.querySelector('.lang-trigger');
-      var m = document.querySelector('.lang-menu');
-      if (!t || !m) return;
-      t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
-      document.addEventListener('click', function() { m.classList.remove('open'); });
-    })();
-  </script>
-</body>`
+    /<div\s+class="lang-switcher"\s+id="lang-switcher">[\s\S]*?<\/div>\s*<\/div>/,
+    switcherHtml
   );
 
-  // 9. Fix paths for locale subdirectories
-  if (locale !== DEFAULT_LOCALE) {
-    html = html.replace(/src="(icon48\.png|icon128\.png|favicon\.ico|favicon\.png)"/g, 'src="../$1"');
-    html = html.replace(/href="(favicon\.ico)"/g, 'href="../$1"');
-    html = html.replace(/href="(icon48\.png)"/g, 'href="../$1"');
-    html = html.replace(/href="privacy\.html"/g, `href="/${locale}/privacy.html"`);
-    html = html.replace(/href="\/#(features|library|faq)"/g, `href="/${locale}/#$1"`);
-    html = html.replace(/href="#(features|library|faq)"/g, `href="/${locale}/#$1"`);
-  }
+  // 7. Fix paths for locale subdirectories (assets are in parent dir)
+  html = html.replace(/src="(icon48\.png|icon128\.png|favicon\.ico|favicon\.png)"/g, 'src="../$1"');
+  html = html.replace(/href="(favicon\.ico)"/g, 'href="../$1"');
+  html = html.replace(/href="(icon48\.png)"/g, 'href="../$1"');
+
+  // 8. Fix nav links for locale subdirectories
+  html = html.replace(/href="privacy\.html"/g, `href="/${locale}/privacy.html"`);
+  html = html.replace(/href="\/#(features|library|faq)"/g, `href="/${locale}/#$1"`);
+  html = html.replace(/href="#(features|library|faq)"/g, `href="/${locale}/#$1"`);
 
   return html;
 }
@@ -334,16 +191,22 @@ function main() {
   const translations = loadTranslations();
   const allLocales = Object.keys(translations);
 
-  // Load templates from git HEAD for idempotent builds
+  // Load templates from local files (they ARE the English pages)
   const indexTemplate = loadTemplate('index.html');
   const privacyTemplate = loadTemplate('privacy.html');
 
   let generated = 0;
 
   for (const locale of allLocales) {
-    const localeDir = locale === DEFAULT_LOCALE ? SITE_DIR : path.join(SITE_DIR, locale);
+    // Skip English - the root files ARE the English pages and templates
+    if (locale === DEFAULT_LOCALE) {
+      console.log(`  / (en) -> skipped (root files are English)`);
+      continue;
+    }
 
-    if (locale !== DEFAULT_LOCALE && !fs.existsSync(localeDir)) {
+    const localeDir = path.join(SITE_DIR, locale);
+
+    if (!fs.existsSync(localeDir)) {
       fs.mkdirSync(localeDir, { recursive: true });
     }
 
@@ -355,12 +218,11 @@ function main() {
     const localePrivacy = processTemplate(privacyTemplate, locale, translations, allLocales, 'privacy.html');
     fs.writeFileSync(path.join(localeDir, 'privacy.html'), localePrivacy);
 
-    const prefix = locale === DEFAULT_LOCALE ? '/ (en)' : `/${locale}/`;
-    console.log(`  ${prefix} -> index.html, privacy.html`);
+    console.log(`  /${locale}/ -> index.html, privacy.html`);
     generated += 2;
   }
 
-  console.log(`\nGenerated ${generated} files for ${allLocales.length} locales.`);
+  console.log(`\nGenerated ${generated} files for ${allLocales.length - 1} non-English locales.`);
   console.log('Done.');
 }
 

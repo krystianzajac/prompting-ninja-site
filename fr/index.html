@@ -114,6 +114,40 @@
     }
     .nav-cta:hover { background: #ea580c !important; }
 
+    /* === Language switcher === */
+    .lang-switcher { position: relative; }
+    .lang-trigger {
+      display: flex; align-items: center; gap: 6px;
+      background: transparent; border: 1px solid #374151;
+      border-radius: 6px; color: #a1a1a6;
+      font-size: 13px; font-weight: 500;
+      padding: 6px 10px; cursor: pointer;
+      transition: all 0.15s ease; font-family: inherit;
+      white-space: nowrap;
+    }
+    .lang-trigger:hover { border-color: #6b7280; color: #ffffff; }
+    .lang-trigger svg { width: 10px; height: 10px; transition: transform 0.15s ease; }
+    .lang-menu {
+      display: none; position: absolute;
+      top: calc(100% + 8px); right: 0;
+      background: #1a1a1a; border: 1px solid #374151;
+      border-radius: 8px; padding: 4px 0;
+      min-width: 160px; max-height: 320px;
+      overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 200;
+    }
+    .lang-menu.open { display: block; }
+    .lang-option {
+      display: block; padding: 8px 14px;
+      color: #a1a1a6; font-size: 13px;
+      text-decoration: none; transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .lang-option:hover { background: #374151; color: #ffffff; }
+    .lang-option.active { color: #f97316; font-weight: 600; }
+    [dir="rtl"] .lang-menu { left: 0; right: auto; }
+    [dir="rtl"] .lang-option { text-align: right; }
+
     /* === Hero === */
     .hero {
       text-align: center;
@@ -236,7 +270,7 @@
     }
 
     .pain-points li::before {
-      content: '✕';
+      content: '\2715';
       position: absolute;
       left: 0;
       color: #ef4444;
@@ -490,7 +524,7 @@
     }
 
     .check-list li::before {
-      content: '✓';
+      content: '\2713';
       position: absolute;
       left: 0;
       color: #059669;
@@ -629,6 +663,10 @@
       .proof-stats { gap: 32px; }
       .header { padding: 0 16px; }
       .nav a:not(.nav-cta) { display: none; }
+      .nav { gap: 12px; }
+      .lang-switcher { display: block; }
+      .lang-switcher a { display: none; }
+      .lang-trigger { font-size: 12px; padding: 5px 8px; }
     }
   </style>
 </head>
@@ -640,13 +678,13 @@
       <img src="../icon48.png" alt="Prompting Ninja" width="28" height="28">
       <h1><span class="prompting">Prompting</span> <span class="ninja">Ninja</span></h1>
     </a>
-        <nav class="nav">
+    <nav class="nav">
       <a href="/fr/#features" data-i18n="nav_features">Fonctions</a>
       <a href="/fr/#library" data-i18n="nav_library">Bibliotheque</a>
       <a href="/fr/#faq" data-i18n="nav_faq">FAQ</a>
       <a href="/fr/privacy.html" data-i18n="nav_privacy">Confidentialite</a>
       <a href="#" class="nav-cta" data-i18n="nav_cta">Ajouter a Chrome</a>
-                        <div class="lang-switcher" id="lang-switcher">
+            <div class="lang-switcher" id="lang-switcher">
         <button class="lang-trigger" aria-label="Change language">
           <span id="lang-current">🇫🇷 Français</span>
           <svg viewBox="0 0 12 12" fill="currentColor"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
@@ -670,134 +708,131 @@
 
   <!-- Hero - Reciprocity: free tool, immediate value -->
   <section class="hero">
-    <div class="hero-badge">Free Chrome Extension - No Account Needed</div>
-    <h2>Your best AI prompts.<br><span>One click away.</span></h2>
-    <p>Stop wasting time rewriting prompts from memory. Store them once, find them in seconds, paste them anywhere.</p>
+    <div class="hero-badge" data-i18n="hero_badge">Extension Chrome gratuite - sans compte requis</div>
+    <h2 data-i18n="hero_title">Vos meilleurs prompts IA.<br><span>En un clic.</span></h2>
+    <p data-i18n="hero_desc">Arretez de perdre du temps a reecrire des prompts de memoire. Sauvegardez-les une fois, retrouvez-les en secondes, collez-les partout.</p>
     <div class="cta-group">
-      <a class="cta" href="#">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        Add to Chrome - It's Free
-      </a>
+      <a class="cta" href="#" data-i18n="hero_cta"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Ajouter a Chrome - gratuit</a>
     </div>
-    <p class="hero-sub">Works with <strong>ChatGPT</strong>, <strong>Claude</strong>, <strong>Gemini</strong>, and any website. Takes 3 seconds to install.</p>
+    <p class="hero-sub" data-i18n="hero_sub">Fonctionne avec <strong>ChatGPT</strong>, <strong>Claude</strong>, <strong>Gemini</strong> et tout site web. Installation en 3 secondes.</p>
   </section>
 
   <!-- Problem - Agitate the pain -->
   <section class="problem">
     <div class="problem-inner">
-      <h3>You've written great prompts before.<br>Can you find them now?</h3>
-      <p>Every AI power user has the same problem:</p>
+      <h3 data-i18n="problem_title">Vous avez ecrit de super prompts avant.<br>Pouvez-vous les retrouver maintenant?</h3>
+      <p data-i18n="problem_intro">Tout utilisateur avance d'IA a le meme probleme:</p>
       <ul class="pain-points">
-        <li>You wrote a perfect prompt last week - now it's buried in a chat history</li>
-        <li>You keep rewriting the same prompts from memory, slightly worse each time</li>
-        <li>Your best prompts are scattered across notes, docs, and browser tabs</li>
-        <li>Switching between AI tools means starting from scratch every time</li>
+        <li data-i18n="pain_1">Vous avez ecrit un prompt parfait la semaine derniere - il est maintenant enfoui dans l'historique du chat</li>
+        <li data-i18n="pain_2">Vous reecrivez constamment les memes prompts de memoire, un peu moins bien a chaque fois</li>
+        <li data-i18n="pain_3">Vos meilleurs prompts sont disperses entre notes, documents et onglets du navigateur</li>
+        <li data-i18n="pain_4">Changer d'outil IA signifie repartir de zero a chaque fois</li>
       </ul>
-      <p>Prompting Ninja fixes this in under 3 seconds.</p>
+      <p data-i18n="problem_fix">Prompting Ninja resout cela en moins de 3 secondes.</p>
     </div>
   </section>
 
   <!-- How it works - Commitment: show simplicity -->
   <section class="solution">
-    <div class="section-label">How It Works</div>
-    <h3 class="section-title">Three steps. Zero friction.</h3>
+    <div class="section-label" data-i18n="how_label">Comment ca marche</div>
+    <h3 class="section-title" data-i18n="how_title">Trois etapes. Zero friction.</h3>
     <div class="steps">
       <div class="step">
         <div class="step-number">1</div>
-        <h4>Save your prompt</h4>
-        <p>Store any prompt with a title, category, and tags. Or start with our curated library of 38 ready-to-use prompts.</p>
+        <h4 data-i18n="step1_title">Sauvegardez votre prompt</h4>
+        <p data-i18n="step1_desc">Stockez n'importe quel prompt avec un titre, une categorie et des tags. Ou commencez avec notre bibliotheque de 38 prompts prets a l'emploi.</p>
       </div>
       <div class="step">
         <div class="step-number">2</div>
-        <h4>Find it instantly</h4>
-        <p>Search across everything - titles, content, tags. Results appear as you type. Your best prompts are always one click away.</p>
+        <h4 data-i18n="step2_title">Trouvez-le instantanement</h4>
+        <p data-i18n="step2_desc">Recherchez partout - titres, contenu, tags. Les resultats apparaissent en tapant. Vos meilleurs prompts toujours a un clic.</p>
       </div>
       <div class="step">
         <div class="step-number">3</div>
-        <h4>Use it anywhere</h4>
-        <p>Copy to clipboard or insert directly into ChatGPT, Claude, or any text field on the web. One click, done.</p>
+        <h4 data-i18n="step3_title">Utilisez-le partout</h4>
+        <p data-i18n="step3_desc">Copiez dans le presse-papiers ou inserez directement dans ChatGPT, Claude ou tout champ texte. Un clic, c'est fait.</p>
       </div>
     </div>
   </section>
 
   <!-- Features - Authority: demonstrate depth -->
   <section class="features" id="features">
-    <div class="section-label">Features</div>
-    <h3 class="section-title">Built for people who use AI every day</h3>
+    <div class="section-label" data-i18n="feat_label">Fonctions</div>
+    <h3 class="section-title" data-i18n="feat_title">Concu pour ceux qui utilisent l'IA chaque jour</h3>
     <div class="feature-grid">
       <div class="feature">
-        <div class="feature-icon">⚡</div>
-        <h4>Instant search</h4>
-        <p>Find any prompt in milliseconds. Search across titles, content, categories, and tags as you type.</p>
+        <div class="feature-icon">&#9889;</div>
+        <h4 data-i18n="feat_search_t">Recherche instantanee</h4>
+        <p data-i18n="feat_search_d">Trouvez n'importe quel prompt en millisecondes. Recherchez par titres, contenu, categories et tags en tapant.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">📋</div>
-        <h4>One-click copy & insert</h4>
-        <p>Copy to clipboard or insert directly into ChatGPT, Claude, and standard web inputs. Clipboard fallback if insertion fails.</p>
+        <div class="feature-icon">&#128203;</div>
+        <h4 data-i18n="feat_copy_t">Copier et inserer en un clic</h4>
+        <p data-i18n="feat_copy_d">Copiez dans le presse-papiers ou inserez directement dans ChatGPT, Claude et les champs web standard. Presse-papiers en secours.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">🏷️</div>
-        <h4>Categories & tags</h4>
-        <p>Organise prompts with categories and tags. Filter, sort, and browse. Default categories included - customise everything.</p>
+        <div class="feature-icon">&#127991;&#65039;</div>
+        <h4 data-i18n="feat_tags_t">Categories et tags</h4>
+        <p data-i18n="feat_tags_d">Organisez vos prompts avec categories et tags. Filtrez, triez et parcourez. Categories par defaut incluses - personnalisez tout.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">⭐</div>
-        <h4>Favourites & recently used</h4>
-        <p>Star your best prompts. Sort by recently used, most used, newest, or title. Your workflow adapts to you.</p>
+        <div class="feature-icon">&#11088;</div>
+        <h4 data-i18n="feat_fav_t">Favoris et recemment utilises</h4>
+        <p data-i18n="feat_fav_d">Marquez vos meilleurs prompts. Triez par recents, plus utilises, nouveaux ou titre. Votre workflow s'adapte.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">🌙</div>
-        <h4>Dark & light themes</h4>
-        <p>Follows your system preference or set it manually. Designed to look premium either way.</p>
+        <div class="feature-icon">&#127769;</div>
+        <h4 data-i18n="feat_theme_t">Themes clair et sombre</h4>
+        <p data-i18n="feat_theme_d">Suit les preferences du systeme ou definissez manuellement. Concu pour paraitre premium dans les deux modes.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">🔄</div>
-        <h4>Sync across devices</h4>
-        <p>Optionally sync via Chrome's built-in sync. Works across all your computers automatically.</p>
+        <div class="feature-icon">&#128260;</div>
+        <h4 data-i18n="feat_sync_t">Synchronisation entre appareils</h4>
+        <p data-i18n="feat_sync_d">Synchronisation optionnelle via la fonction integree de Chrome. Fonctionne sur tous vos ordinateurs automatiquement.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">🌍</div>
-        <h4>12 languages, built in</h4>
-        <p>Full UI and prompt library in English, Polish, Spanish, Portuguese, Ukrainian, French, German, Italian, Japanese, Chinese, and Arabic with RTL support.</p>
+        <div class="feature-icon">&#127757;</div>
+        <h4 data-i18n="feat_lang_t">12 langues integrees</h4>
+        <p data-i18n="feat_lang_d">Interface complete et bibliotheque de prompts en anglais, polonais, espagnol, portugais, ukrainien, francais, allemand, italien, japonais, chinois et arabe avec support RTL.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">📦</div>
-        <h4>Import & export</h4>
-        <p>Export your entire library as JSON. Import it on another machine. Your prompts are always portable.</p>
+        <div class="feature-icon">&#128230;</div>
+        <h4 data-i18n="feat_export_t">Importer et exporter</h4>
+        <p data-i18n="feat_export_d">Exportez toute votre bibliotheque en JSON. Importez-la sur une autre machine. Vos prompts sont toujours portables.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">🔒</div>
-        <h4>Private by default</h4>
-        <p>All data stays in your browser. No accounts, no tracking, no servers. Your prompts are yours.</p>
+        <div class="feature-icon">&#128274;</div>
+        <h4 data-i18n="feat_priv_t">Prive par defaut</h4>
+        <p data-i18n="feat_priv_d">Toutes les donnees restent dans votre navigateur. Sans comptes, sans suivi, sans serveurs. Vos prompts sont les votres.</p>
       </div>
     </div>
   </section>
 
   <!-- Library - Reciprocity: free value upfront -->
   <section class="library" id="library">
-    <div class="section-label" style="color: #fb923c;">Starter Library</div>
-    <h3>39 prompts, ready to use</h3>
-    <p>Start with a curated library of high-quality prompts for everyday AI work. Add your own, edit anything, build your personal collection.</p>
+    <div class="section-label" style="color: #fb923c;" data-i18n="lib_label">Bibliotheque de demarrage</div>
+    <h3 data-i18n="lib_title">39 prompts, prets a l'emploi</h3>
+    <p data-i18n="lib_desc">Commencez avec une bibliotheque de prompts de haute qualite pour le travail quotidien avec l'IA. Ajoutez les votres, editez, construisez votre collection.</p>
     <div class="library-categories">
-      <span class="library-pill">Writing</span>
-      <span class="library-pill">Analysis</span>
-      <span class="library-pill">Business</span>
-      <span class="library-pill">Productivity</span>
-      <span class="library-pill">Creative</span>
-      <span class="library-pill">Learning</span>
+      <span class="library-pill" data-i18n="lib_cat_writing">Ecriture</span>
+      <span class="library-pill" data-i18n="lib_cat_analysis">Analyse</span>
+      <span class="library-pill" data-i18n="lib_cat_business">Business</span>
+      <span class="library-pill" data-i18n="lib_cat_productivity">Productivite</span>
+      <span class="library-pill" data-i18n="lib_cat_creative">Creativite</span>
+      <span class="library-pill" data-i18n="lib_cat_learning">Apprentissage</span>
     </div>
     <div class="library-examples">
       <div class="library-example">
-        <strong>Rewrite for clarity</strong>
-        Rewrite the text below for clarity, simplicity, and flow. Keep the original meaning...
+        <strong data-i18n="lib_ex1_t">Reecrire pour la clarte</strong>
+        <span data-i18n="lib_ex1_d">Reecrivez le texte ci-dessous pour la clarte, la simplicite et la fluidite. Gardez le sens original...</span>
       </div>
       <div class="library-example">
-        <strong>Challenge my thinking</strong>
-        Identify weak assumptions, blind spots, missing evidence, and what a smart sceptic would say...
+        <strong data-i18n="lib_ex2_t">Remettez en question ma reflexion</strong>
+        <span data-i18n="lib_ex2_d">Identifiez les hypotheses faibles, les angles morts, les preuves manquantes et ce qu'un sceptique intelligent dirait...</span>
       </div>
       <div class="library-example">
-        <strong>Turn this into an action plan</strong>
-        Clear action plan with objective, key tasks, logical sequence, dependencies, risks...
+        <strong data-i18n="lib_ex3_t">Transformez en plan d'action</strong>
+        <span data-i18n="lib_ex3_d">Plan d'action clair avec objectif, taches cles, sequence logique, dependances, risques...</span>
       </div>
     </div>
   </section>
@@ -807,121 +842,118 @@
     <div class="proof-stats">
       <div class="proof-stat">
         <div class="number">39</div>
-        <div class="label">Ready-to-use prompts</div>
+        <div class="label" data-i18n="stat_prompts">Prompts prets a l'emploi</div>
       </div>
       <div class="proof-stat">
         <div class="number">6</div>
-        <div class="label">Categories</div>
+        <div class="label" data-i18n="stat_categories">Categories</div>
       </div>
       <div class="proof-stat">
         <div class="number">0</div>
-        <div class="label">Data collected</div>
+        <div class="label" data-i18n="stat_data">Donnees collectees</div>
       </div>
       <div class="proof-stat">
         <div class="number">100%</div>
-        <div class="label">Free</div>
+        <div class="label" data-i18n="stat_free">Gratuit</div>
       </div>
     </div>
     <div class="testimonials">
       <div class="testimonial">
-        <div class="testimonial-text">"I use AI tools all day. Before this, my best prompts were buried across 20 different chat threads. Now I find them in seconds."</div>
-        <div class="testimonial-author">- Kris Z.</div>
+        <div class="testimonial-text" data-i18n="test1">"J'utilise des outils IA toute la journee. Avant, mes meilleurs prompts etaient enfouis dans 20 fils de chat differents. Maintenant je les trouve en secondes."</div>
+        <div class="testimonial-author" data-i18n="test1_author">- Kris Z.</div>
       </div>
       <div class="testimonial">
-        <div class="testimonial-text">"The starter library alone saved me hours. I just added them all and started using them immediately. No setup, no friction."</div>
-        <div class="testimonial-author">- Andy L.</div>
+        <div class="testimonial-text" data-i18n="test2">"La bibliotheque de demarrage seule m'a fait gagner des heures. J'ai tout ajoute et commence a utiliser immediatement. Sans config, sans friction."</div>
+        <div class="testimonial-author" data-i18n="test2_author">- Andy L.</div>
       </div>
       <div class="testimonial">
-        <div class="testimonial-text">"Finally something that respects privacy. No account, no cloud, no tracking. Just a fast prompt library that works."</div>
-        <div class="testimonial-author">- Mia H.</div>
+        <div class="testimonial-text" data-i18n="test3">"Enfin quelque chose qui respecte la vie privee. Sans compte, sans cloud, sans suivi. Juste une bibliotheque de prompts rapide qui fonctionne."</div>
+        <div class="testimonial-author" data-i18n="test3_author">- Mia H.</div>
       </div>
       <div class="testimonial">
-        <div class="testimonial-text">"I copy-paste prompts into ChatGPT and Claude dozens of times a day. This extension cut that workflow from minutes to one click."</div>
-        <div class="testimonial-author">- Aneta M.</div>
+        <div class="testimonial-text" data-i18n="test4">"Je copie-colle des prompts dans ChatGPT et Claude des dizaines de fois par jour. Cette extension a reduit ce workflow de minutes a un clic."</div>
+        <div class="testimonial-author" data-i18n="test4_author">- Aneta M.</div>
       </div>
       <div class="testimonial">
-        <div class="testimonial-text">"Dark mode looks beautiful. The whole thing feels like it was designed by Apple. Clean, fast, and stays out of the way."</div>
-        <div class="testimonial-author">- Louis A.</div>
+        <div class="testimonial-text" data-i18n="test5">"Le mode sombre est magnifique. L'ensemble donne l'impression d'avoir ete concu par Apple. Propre, rapide, et discret."</div>
+        <div class="testimonial-author" data-i18n="test5_author">- Louis A.</div>
       </div>
     </div>
   </section>
 
   <!-- Privacy - Liking: align with values -->
   <section class="privacy-section">
-    <h3>Your prompts are yours</h3>
-    <p>We built Prompting Ninja with a simple belief: your prompts are your intellectual property. We never see them.</p>
+    <h3 data-i18n="priv_title">Vos prompts sont les votres</h3>
+    <p data-i18n="priv_desc">Nous avons construit Prompting Ninja avec une conviction simple: vos prompts sont votre propriete intellectuelle. Nous ne les voyons jamais.</p>
     <ul class="check-list">
-      <li>All data stored locally in your browser</li>
-      <li>No account or sign-up required</li>
-      <li>No analytics, tracking, or telemetry</li>
-      <li>No external servers or cloud dependency</li>
-      <li>Minimal permissions - only what's needed</li>
-      <li>Open to inspection - we have nothing to hide</li>
+      <li data-i18n="priv_1">Toutes les donnees stockees localement dans votre navigateur</li>
+      <li data-i18n="priv_2">Aucun compte ou inscription requis</li>
+      <li data-i18n="priv_3">Aucune analytique, suivi ou telemetrie</li>
+      <li data-i18n="priv_4">Aucun serveur externe ou dependance cloud</li>
+      <li data-i18n="priv_5">Permissions minimales - uniquement le necessaire</li>
+      <li data-i18n="priv_6">Ouvert a l'inspection - nous n'avons rien a cacher</li>
     </ul>
   </section>
 
   <!-- FAQ - Authority + Objection handling -->
   <section class="faq" id="faq">
-    <div class="section-label">FAQ</div>
-    <h3 class="section-title">Common questions</h3>
+    <div class="section-label" data-i18n="faq_label">FAQ</div>
+    <h3 class="section-title" data-i18n="faq_title">Questions frequentes</h3>
 
     <div class="faq-item">
-      <h4>Is it really free?</h4>
-      <p>Yes, completely free. No premium tier, no trial period, no hidden costs. We built this because we needed it ourselves.</p>
+      <h4 data-i18n="faq1_q">C'est vraiment gratuit?</h4>
+      <p data-i18n="faq1_a">Oui, completement gratuit. Pas de plan premium, pas de periode d'essai, pas de couts caches. Nous l'avons construit parce que nous en avions besoin nous-memes.</p>
     </div>
 
     <div class="faq-item">
-      <h4>Do I need to create an account?</h4>
-      <p>No. Install it and start using it immediately. No email, no sign-up, no password. Your data is stored locally in your browser.</p>
+      <h4 data-i18n="faq2_q">Dois-je creer un compte?</h4>
+      <p data-i18n="faq2_a">Non. Installez et commencez a utiliser immediatement. Pas d'email, pas d'inscription, pas de mot de passe. Vos donnees sont stockees localement dans votre navigateur.</p>
     </div>
 
     <div class="faq-item">
-      <h4>Which AI tools does it work with?</h4>
-      <p>Prompting Ninja works with any website. It can insert prompts directly into ChatGPT, Claude, Gemini, and standard text fields - including Gmail (which now includes Gemini). For any other tool, one-click copy to clipboard works everywhere.</p>
+      <h4 data-i18n="faq3_q">Avec quels outils IA ca fonctionne?</h4>
+      <p data-i18n="faq3_a">Prompting Ninja fonctionne avec n'importe quel site web. Il peut inserer des prompts directement dans ChatGPT, Claude, Gemini et les champs texte standard - y compris Gmail. Pour tout autre outil, la copie en un clic fonctionne partout.</p>
     </div>
 
     <div class="faq-item">
-      <h4>Can I sync my prompts across devices?</h4>
-      <p>Yes, optionally. Turn on Chrome Sync in settings and your prompts travel with your Chrome profile across all your computers. No account needed - it uses Chrome's built-in sync.</p>
+      <h4 data-i18n="faq4_q">Puis-je synchroniser mes prompts entre appareils?</h4>
+      <p data-i18n="faq4_a">Oui, optionnellement. Activez Chrome Sync dans les parametres et vos prompts suivent votre profil Chrome sur tous vos ordinateurs. Sans compte supplementaire - utilise la synchronisation integree de Chrome.</p>
     </div>
 
     <div class="faq-item">
-      <h4>Is my data private?</h4>
-      <p>Completely. All prompts are stored locally in your browser. We don't run servers, collect analytics, or see your data. The extension requests only the minimum permissions needed to function.</p>
+      <h4 data-i18n="faq5_q">Mes donnees sont-elles privees?</h4>
+      <p data-i18n="faq5_a">Completement. Tous les prompts sont stockes localement dans votre navigateur. Nous n'avons pas de serveurs, ne collectons pas d'analytiques et ne voyons pas vos donnees.</p>
     </div>
 
     <div class="faq-item">
-      <h4>Can I import my existing prompts?</h4>
-      <p>Yes. Import from JSON, or start with our curated library of 39 prompts and build from there. You can also export your entire library at any time.</p>
+      <h4 data-i18n="faq6_q">Puis-je importer mes prompts existants?</h4>
+      <p data-i18n="faq6_a">Oui. Importez depuis JSON, ou commencez avec notre bibliotheque de 39 prompts. Vous pouvez aussi exporter toute votre bibliotheque a tout moment.</p>
     </div>
 
     <div class="faq-item">
-      <h4>What if I switch browsers?</h4>
-      <p>Export your library as JSON and import it into Prompting Ninja on any other Chrome-based browser (Chrome, Edge, Brave, Arc).</p>
+      <h4 data-i18n="faq7_q">Et si je change de navigateur?</h4>
+      <p data-i18n="faq7_a">Exportez votre bibliotheque en JSON et importez-la dans Prompting Ninja sur n'importe quel navigateur base sur Chrome (Chrome, Edge, Brave, Arc).</p>
     </div>
   </section>
 
   <!-- Final CTA - Scarcity/Urgency: simplicity of action -->
   <section class="final-cta">
-    <h3>Stop rewriting prompts from memory</h3>
-    <p>Join AI power users who save hours every week by keeping their best prompts one click away.</p>
-    <a class="cta" href="#">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-      Add to Chrome - Free
-    </a>
-    <p class="final-sub">Takes 3 seconds to install. No account needed. Works immediately.</p>
+    <h3 data-i18n="final_title">Arretez de reecrire des prompts de memoire</h3>
+    <p data-i18n="final_desc">Rejoignez les utilisateurs avances d'IA qui gagnent des heures chaque semaine en gardant leurs meilleurs prompts a un clic.</p>
+    <a class="cta" href="#" data-i18n="final_cta"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Ajouter a Chrome - gratuit</a>
+    <p class="final-sub" data-i18n="final_sub">Installation en 3 secondes. Sans compte. Fonctionne immediatement.</p>
   </section>
 
   <!-- Story -->
   <section class="story">
     <div class="story-inner">
-      <div class="section-label">The Story</div>
-      <h3>Built out of frustration</h3>
-      <p>I'm <a href="https://www.linkedin.com/in/krystianzajac/" target="_blank" rel="noopener">Krystian Zajac</a> - and I built Prompting Ninja because I was tired of losing my best prompts.</p>
-      <p>Every day I use ChatGPT, Claude, and Gemini for everything from writing to coding to strategy. And every day I'd waste time hunting through old chat threads, notes, and docs trying to find that one prompt that worked perfectly last week.</p>
-      <p>I kept rewriting the same prompts from memory. It was maddening.</p>
-      <p>So I built the tool I desperately needed: a fast, private prompt library that lives in my browser and lets me find and use any prompt in one click. No accounts, no cloud, no complexity. Just my prompts, ready when I need them.</p>
-      <p>If you use AI tools daily, I think you'll find it as useful as I do.</p>
+      <div class="section-label" data-i18n="story_label">L'histoire</div>
+      <h3 data-i18n="story_title">Construit par frustration</h3>
+      <p data-i18n="story_p1">Je suis <a href="https://www.linkedin.com/in/krystianzajac/" target="_blank" rel="noopener">Krystian Zajac</a> - et j'ai construit Prompting Ninja parce que j'en avais assez de perdre mes meilleurs prompts.</p>
+      <p data-i18n="story_p2">Chaque jour j'utilise ChatGPT, Claude et Gemini pour tout, de l'ecriture au code en passant par la strategie. Et chaque jour je perdais du temps a chercher dans de vieux fils de chat, notes et documents ce prompt qui avait parfaitement fonctionne la semaine derniere.</p>
+      <p data-i18n="story_p3">Je reecrivais constamment les memes prompts de memoire. C'etait exasperant.</p>
+      <p data-i18n="story_p4">Alors j'ai construit l'outil dont j'avais desesperement besoin: une bibliotheque de prompts rapide et privee dans mon navigateur qui me permet de trouver et utiliser n'importe quel prompt en un clic. Sans comptes, sans cloud, sans complexite.</p>
+      <p data-i18n="story_p5">Si vous utilisez des outils IA quotidiennement, je pense que vous le trouverez aussi utile que moi.</p>
       <div class="story-links">
         <a href="https://x.com/krystianzajac" target="_blank" rel="noopener">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -936,7 +968,7 @@
   </section>
 
   <!-- Footer -->
-    <footer class="footer">
+  <footer class="footer">
     <div class="footer-links">
       <a href="/fr/privacy.html" data-i18n="footer_privacy">Politique de confidentialite</a>
     </div>
@@ -952,33 +984,5 @@
       document.addEventListener('click', function() { m.classList.remove('open'); });
     })();
   </script>
-  <script>
-    (function() {
-      var t = document.querySelector('.lang-trigger');
-      var m = document.querySelector('.lang-menu');
-      if (!t || !m) return;
-      t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
-      document.addEventListener('click', function() { m.classList.remove('open'); });
-    })();
-  </script>
-  <script>
-    (function() {
-      var t = document.querySelector('.lang-trigger');
-      var m = document.querySelector('.lang-menu');
-      if (!t || !m) return;
-      t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
-      document.addEventListener('click', function() { m.classList.remove('open'); });
-    })();
-  </script>
-  <script>
-    (function() {
-      var t = document.querySelector('.lang-trigger');
-      var m = document.querySelector('.lang-menu');
-      if (!t || !m) return;
-      t.addEventListener('click', function(e) { e.stopPropagation(); m.classList.toggle('open'); });
-      document.addEventListener('click', function() { m.classList.remove('open'); });
-    })();
-  </script>
 </body>
 </html>
-
